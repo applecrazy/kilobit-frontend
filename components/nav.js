@@ -10,9 +10,9 @@ const Nav = () => (
     </div>
     <div className="navbar-end">
       <div className="navbar-item">
-        <div className="buttons">
-          <Link href="/login"><a class="button is-white is-rounded has-text-primary"><strong>Login</strong></a></Link>
-          <Link href="/signup"><a class="button is-white is-rounded is-outlined"><strong>Sign up</strong></a></Link>
+        <div className="buttons has-text-centered-mobile">
+          <Link href="/login"><a className="button is-white is-rounded has-text-primary"><strong>Login</strong></a></Link>
+          <Link href="/signup"><a className="button is-white is-rounded is-outlined"><strong>Sign up</strong></a></Link>
         </div>
       </div>
     </div>
