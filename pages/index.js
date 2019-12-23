@@ -1,10 +1,14 @@
 import React from 'react'
 import Head from 'next/head'
+import Link from 'next/link'
 import Nav from '../components/nav'
 import '../styles/styles.sass'
 
 const Home = () => (
-  <>
+  <> 
+    <head>
+      <title key="title">Kilobit</title>
+    </head>
     <Nav />
     <section className="hero is-primary is-medium" style={{ position: 'relative', overflow: 'hidden' }}>
       <div className="bkd is-hidden-mobile">&nbsp;</div>
@@ -19,6 +23,20 @@ const Home = () => (
       <br className="is-hidden-mobile" /><br className="is-hidden-mobile" />
       <div className="bit-examples"></div>
     </section>
+    <div className="hero is-primary">
+      <div className="hero-body has-text-centered">
+        <h1 className="title is-1 has-text-centered" style={{ fontWeight: '900', fontSize: '50px', marginBottom: '0' }}>
+            Ready for a <em>fresh</em> social<br />media experience?
+        </h1>
+        <br />
+        <br/>
+        <Link href="/signup">
+          <a className="button is-large is-white is-rounded is-outlined">
+            <strong>Join</strong>&nbsp;<span style={{ fontWeight: '900' }}><em>kilobit</em></span>
+          </a>
+        </Link>
+      </div>
+    </div>
     <style jsx>{`
         :global(body) {
           background: #297FFF;
