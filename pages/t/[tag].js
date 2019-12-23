@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import Nav from '../../components/nav'
 import Link from 'next/link'
 import Head from 'next/head'
