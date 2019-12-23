@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Layout from '../components/layout'
-import '../styles/styles.sass'
 
 class Signup extends Component {
     constructor(props) {

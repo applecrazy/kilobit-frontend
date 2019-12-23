@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 import Layout from '../components/layout'
-import '../styles/styles.sass'
 
 const Home = () => (
   <Layout withNavbar>

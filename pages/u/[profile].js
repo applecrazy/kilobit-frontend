@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { withRouter } from 'next/router'
-import Head from 'next/head'
-import Link from 'next/link'
-import Nav from '../../components/nav'
 import ProfileHeader from '../../components/profile-header'
-import '../../styles/styles.sass'
 import BitCard from '../../components/bit-card'
 import Layout from '../../components/layout'
 

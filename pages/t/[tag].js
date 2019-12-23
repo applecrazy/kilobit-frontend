@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Nav from '../../components/nav'
 import Link from 'next/link'
+import BiatCard from '../../components/bit-card'
 import Head from 'next/head'
 import { withRouter } from 'next/router'
-import '../../styles/styles.sass'
 
 const BitCard = props => (
     <div className="bit-card">
@@ -118,7 +118,7 @@ class Tag extends Component {
                     </div>
                 </div>
                 <section className="section bit-grid">
-                    <BitCard displayName="John Doe" handle="johndoe" />
+                    <BitCard displayName="John Doe" handle="johndoe" text="hey there" />
                     <BitCard displayName="Mary Test" handle="mary23" />
                     <BitCard displayName="Mark Zuck" handle="zuck" />
                     <BitCard displayName="Sundar Pitch" handle="sundar" />
