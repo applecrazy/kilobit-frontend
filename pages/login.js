@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import Head from 'next/head'
 import '../styles/styles.sass'
 
-class Signup extends Component {
+class Login extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            displayName: '',
             username: '',
             password: ''
         }
@@ -32,17 +31,6 @@ class Signup extends Component {
                         <br />
                         <input
                             type="input"
-                            name="displayName"
-                            className="input"
-                            style={{ fontWeight: 'bold' }}
-                            placeholder="display name"
-                            onChange={this.changeState.bind(this)}
-                            value={this.state.displayName}
-                        />
-                        <br />
-                        <br />
-                        <input
-                            type="input"
                             name="username"
                             className="input"
                             style={{ fontWeight: 'bold' }}
@@ -63,12 +51,9 @@ class Signup extends Component {
                         />
                         <br />
                         <br />
-                        <button className="button is-rounded is-primary" onClick={this.submit.bind(this)}><strong>Sign up</strong></button>
+                        <button className="button is-rounded is-primary" onClick={this.submit.bind(this)}><strong>Login</strong></button>
                     </div>
                 </div>
-                <Head>
-                    <title key="title">kilobit: signup</title>
-                </Head>
                 <style jsx>{`
                     input.input::placeholder {
                         color: #5e5e5e;
@@ -77,11 +62,17 @@ class Signup extends Component {
                         border: 2px solid #5e5e5e;
                         height: 51px;
                     }
+                    img {
+                        user-select: none;
+                    }
                 `}</style>
+                <Head>
+                    <title key="title">kilobit: login</title>
+                </Head>
             </div>
         )
     }
 }
 
 
-export default Signup
+export default Login
