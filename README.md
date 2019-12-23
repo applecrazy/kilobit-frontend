@@ -1,6 +1,6 @@
 # Kilobit: Next.js-based Twitter clone
 
-<center><img src="./public/branding/kilobit-wordmark-color.svg" /></center>
+<p align="center"><img src="./public/branding/kilobit-wordmark-color.svg" /></p>
 
 ## About this project
 This project was created with two goals in mind:
