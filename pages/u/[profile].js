@@ -6,91 +6,14 @@ import Link from 'next/link'
 import Nav from '../../components/nav'
 import ProfileHeader from '../../components/profile-header'
 import '../../styles/styles.sass'
-
-const Bit = props => (
-    <Link href={`/bit/${props.bitID}`}>
-        <div className="box">
-            <Link href="#">
-                <h4 className="title is-5 bit-header" style={{ marginBottom: '6px', cursor: 'pointer' }}>
-                    {props.displayName}
-                    {props.verified ? ' ' : ''}
-                    {props.verified ? <i className="fas fa-check-circle verified-check-small" title="verified."></i> : ''}
-                    &emsp;
-                    <span className="handle">@{props.handle}</span>
-                </h4>
-            </Link>
-            <p className="bit-text">{props.text}</p>
-            <p className="bit-date">{props.date}</p>
-            <div className="columns interacts is-mobile">
-                <div className="column is-3">
-                    <i className="far fa-comment-alt"></i>&nbsp;&nbsp;<span className="interacts-label">{props.numReplies || 0}</span>
-                </div>
-                <div className="column is-3">
-                    <i className="far fa-heart"></i>&nbsp;&nbsp;<span className="interacts-label">{props.numHearts || 0}</span>
-                </div>
-            </div>
-            <style jsx>{`
-                .bit-header {
-                    font-size: 18px;
-                    user-select: none;
-                }
-                .handle {
-                    font-weight: 400;
-                    user-select: none;
-                }
-                .bit-text {
-                    font-weight: 500;
-                    font-size: 18px;
-                    line-height: 24px;
-                    margin-bottom: 6px;
-                }
-                .bit-date {
-                    font-weight: 500;
-                    font-size: 13px;
-                    line-height: 17px;
-                    color: #5D5D5D;
-                    margin-bottom: 6px;
-                }
-                .interacts {
-                    font-size: 13px;
-                }
-                .interacts-label {
-                    font-size: 15px;
-                }
-                .verified-check-small {
-                    font-size: 13px;
-                    user-select: none;
-                }
-                .box:hover {
-                    background: #fbfbfb;
-                    cursor: pointer;
-                }
-        `}</style>
-        </div>
-    </Link>
-)
-
-Bit.propTypes = {
-    displayName: PropTypes.string.isRequired,
-    verified: PropTypes.bool,
-    handle: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-    numReplies: PropTypes.number,
-    numHearts: PropTypes.number,
-    bitID: PropTypes.string.isRequired
-}
+import BitCard from '../../components/bit-card'
+import Layout from '../../components/layout'
 
 
 class Profile extends Component {
     render() {
         return (
-            <>
-                <Head>
-                    <title key="title">kilobit: @{this.props.router.query.profile}</title>
-                    <link key="icons" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
-                </Head>
-                <Nav />
+            <Layout withIcons withNavbar title={`@${this.props.router.query.profile}`}>
                 <ProfileHeader
                     displayName="Mark Zuckerberg"
                     handle="zuck"
@@ -100,7 +23,7 @@ class Profile extends Component {
                 <section className="section" style={{ paddingTop: '2rem' }}>
                     <div className="columns">
                         <div className="column is-6 bit-list">
-                            <Bit
+                            <BitCard
                                 displayName="Mark Zuckerberg"
                                 handle={this.props.router.query.profile}
                                 text="You know, I always wondered why the speed of light was 3.0E8 meters per second. Why that number specifically? #wondering #friday"
@@ -110,7 +33,7 @@ class Profile extends Component {
                                 bitID="128289143893498349"
                                 verified
                             />
-                            <Bit
+                            <BitCard
                                 displayName="Mark Zuckerberg"
                                 handle={this.props.router.query.profile}
                                 text="Am I actually a #robot? Had fun watching the finale of @MrRobotUSA, great show."
@@ -120,7 +43,7 @@ class Profile extends Component {
                                 bitID="128289143893498349"
                                 verified
                             />
-                            <Bit
+                            <BitCard
                                 displayName="Mark Zuckerberg"
                                 handle={this.props.router.query.profile}
                                 text="Hello #kilobit! This is an awesome new platform where I can be myself, a robot. #totallynotrobots"
@@ -161,7 +84,7 @@ class Profile extends Component {
                     }
                     
                 `}</style>
-            </>
+            </Layout>
         )
     }
 }

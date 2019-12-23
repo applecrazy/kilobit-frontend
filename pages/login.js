@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Head from 'next/head'
+import Layout from '../components/layout'
 import '../styles/styles.sass'
 
 class Login extends Component {
@@ -23,38 +23,7 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="hero is-fullheight">
-                <div className="hero-body">
-                    <div className="container has-text-centered" style={{ maxWidth: '360px' }}>
-                        <h4 className="title is-4 welcome-msg">Welcome to</h4>
-                        <img src="../branding/kilobit-wordmark-color.svg" alt="kilobit wordmark" />
-                        <br />
-                        <br />
-                        <input
-                            type="input"
-                            name="username"
-                            className="input"
-                            style={{ fontWeight: 'bold' }}
-                            placeholder="username"
-                            onChange={this.changeState.bind(this)}
-                            value={this.state.username}
-                        />
-                        <br />
-                        <br />
-                        <input
-                            type="password"
-                            name="password"
-                            className="input"
-                            style={{ fontWeight: 'bold' }}
-                            placeholder="password"
-                            onChange={this.changeState.bind(this)}
-                            value={this.state.password}
-                        />
-                        <br />
-                        <br />
-                        <button className="button is-rounded is-primary" onClick={this.submit.bind(this)}><strong>Login</strong></button>
-                    </div>
-                </div>
+            <Layout title="login">
                 <style jsx>{`
                     .welcome-msg {
                         font-size: 18px;
@@ -74,10 +43,40 @@ class Login extends Component {
                         user-select: none;
                     }
                 `}</style>
-                <Head>
-                    <title key="title">kilobit: login</title>
-                </Head>
-            </div>
+                <div className="hero is-fullheight">
+                    <div className="hero-body">
+                        <div className="container has-text-centered" style={{ maxWidth: '360px' }}>
+                            <h4 className="title is-4 welcome-msg">Welcome to</h4>
+                            <img src="../branding/kilobit-wordmark-color.svg" alt="kilobit wordmark" />
+                            <br />
+                            <br />
+                            <input
+                                type="input"
+                                name="username"
+                                className="input"
+                                style={{ fontWeight: 'bold' }}
+                                placeholder="username"
+                                onChange={this.changeState.bind(this)}
+                                value={this.state.username}
+                            />
+                            <br />
+                            <br />
+                            <input
+                                type="password"
+                                name="password"
+                                className="input"
+                                style={{ fontWeight: 'bold' }}
+                                placeholder="password"
+                                onChange={this.changeState.bind(this)}
+                                value={this.state.password}
+                            />
+                            <br />
+                            <br />
+                            <button className="button is-rounded is-primary" onClick={this.submit.bind(this)}><strong>Login</strong></button>
+                        </div>
+                    </div>
+                </div>
+            </Layout>
         )
     }
 }
