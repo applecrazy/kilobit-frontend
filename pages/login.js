@@ -26,6 +26,7 @@ class Login extends Component {
             <div className="hero is-fullheight">
                 <div className="hero-body">
                     <div className="container has-text-centered" style={{ maxWidth: '360px' }}>
+                        <h4 className="title is-4 welcome-msg">Welcome to</h4>
                         <img src="../branding/kilobit-wordmark-color.svg" alt="kilobit wordmark" />
                         <br />
                         <br />
@@ -55,6 +56,13 @@ class Login extends Component {
                     </div>
                 </div>
                 <style jsx>{`
+                    .welcome-msg {
+                        font-size: 18px;
+                        letter-spacing: 5px;
+                        font-weight: 900;
+                        color: black;
+                        text-transform: uppercase;
+                    }
                     input.input::placeholder {
                         color: #5e5e5e;
                     }

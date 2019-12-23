@@ -32,7 +32,6 @@ const BitCard = props => (
             <div className="column"></div>
             <div className="column"></div>
             <div className="column"></div>
-            <div className="column"></div>
         </div>
         <style jsx>{`
             .bit-card {
@@ -103,7 +102,7 @@ class Tag extends Component {
             <>
                 <Head>
                     <title key="title">kilobit: #{this.props.router.query.tag}</title>
-                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
+                    <link key="icons" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
                 </Head>
                 <Nav />
                 <div className="hero is-primary is-small">
@@ -113,7 +112,7 @@ class Tag extends Component {
                                 <h1 className="title is-1 bit-tag" style={{ fontWeight: '400', fontSize: '70px', userSelect: 'none' }}>#{this.props.router.query.tag}</h1>
                             </div>
                             <div className="column is-3 has-text-right bit-display" style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
-                                <span style={{ fontSize: '20px', fontWeight: 'bold', letterSpacing: '4px', userSelect: 'none', textTransform: 'uppercase' }}>13,884 bits</span>
+                                <span style={{ fontSize: '20px', fontWeight: 'bold', letterSpacing: '3.5px', userSelect: 'none', textTransform: 'uppercase' }}>13,884 bits</span>
                             </div>
                         </div>
                     </div>
