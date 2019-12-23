@@ -6,9 +6,9 @@ import '../styles/styles.sass'
 
 const Home = () => (
   <> 
-    <head>
+    <Head>
       <title key="title">Kilobit</title>
-    </head>
+    </Head>
     <Nav />
     <section className="hero is-primary is-medium" style={{ position: 'relative', overflow: 'hidden' }}>
       <div className="bkd is-hidden-mobile">&nbsp;</div>
@@ -59,7 +59,7 @@ const Home = () => (
           background-position: center;
           height: 96px;
         }
-        @media screen and (max-width: 375px) {
+        @media screen and (max-width: 520px) {
           .bit-examples {
             height: 65px;
           }
