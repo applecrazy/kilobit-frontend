@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import Link from 'next/link'
 import '../styles/styles.sass'
 
@@ -19,7 +20,7 @@ const BitCard = props => (
             </Link>
             <p className="bit-text">{props.text}</p>
             <p className="bit-date">{props.date}</p>
-            <div className="columns interacts is-mobile">
+            <div className={classNames('columns', 'interacts', 'is-mobile', {'is-hidden': props.hideBottomStats})}>
                 <div className="column is-3">
                     <i className="far fa-comment-alt"></i>&nbsp;&nbsp;<span className="interacts-label">{props.numReplies || 0}</span>
                 </div>
@@ -81,7 +82,8 @@ BitCard.propTypes = {
     numHearts: PropTypes.number,
     bitID: PropTypes.string.isRequired,
     fixedWidth: PropTypes.number,
-    fixedHeight: PropTypes.number
+    fixedHeight: PropTypes.number,
+    hideBottomStats: PropTypes.bool
 }
 
 export default BitCard
