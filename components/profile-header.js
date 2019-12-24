@@ -22,7 +22,7 @@ const ProfileHeader = props => (
                 <div className="level-left">
                     <div className="level-item">
                         <div className="tag is-primary is-light is-rounded is-white">
-                            <strong className="has-text-primary">Joined November 2019</strong>
+                            <strong className="has-text-primary">Joined December 2019</strong>
                         </div>
                     </div>
                 </div>
