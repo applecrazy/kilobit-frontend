@@ -10,7 +10,7 @@ const BitCard = props => (
         }}>
             <Link href={`/u/${props.handle}`}>
                 <h4 className="title is-5 bit-header" style={{ marginBottom: '6px', cursor: 'pointer' }}>
-                    {props.displayName}
+                    <span>{props.displayName}</span>
                     {props.verified ? ' ' : ''}
                     {props.verified ? <i className="fas fa-check-circle verified-check-small" title="verified."></i> : ''}
                     &emsp;
@@ -31,6 +31,9 @@ const BitCard = props => (
                 .bit-header {
                     font-size: 18px;
                     user-select: none;
+                }
+                .bit-header:hover {
+                    color: #505050;
                 }
                 .handle {
                     font-weight: 400;

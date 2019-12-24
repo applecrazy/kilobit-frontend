@@ -105,7 +105,7 @@ class Tag extends Component {
                         flex-direction: row;
                         flex-wrap: wrap;
                         width: 100%;
-                        justify-content: space-between;
+                        justify-content: space-around;
                     }
                     @media screen and (max-width: 768px) {
                         .bit-display {
@@ -113,6 +113,11 @@ class Tag extends Component {
                         }
                         .bit-tag {
                             font-size: 40px !important;
+                        }
+                    }
+                    @media screen and (max-width: 375px) {
+                        .bit-grid {
+                            justify-content: center;
                         }
                     }
                 `}</style>
