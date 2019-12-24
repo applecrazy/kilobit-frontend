@@ -81,8 +81,8 @@ class Tag extends Component {
                         bitID="128289143893498349"
                         fixedWidth={400}
                         fixedHeight={205}
-                        numHearts="4.9k"
-                        numReplies="6.2k"
+                        numHearts={4900}
+                        numReplies={6200}
                         verified
                     />
                     <BitCard
