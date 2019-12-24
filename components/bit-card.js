@@ -4,7 +4,10 @@ import '../styles/styles.sass'
 
 const BitCard = props => (
     <Link href={`/bit/${props.bitID}`}>
-        <div className="box">
+        <div className="box" style={{
+            width: props.fixedWidth ? `${props.fixedWidth}px` : 'auto',
+            height: props.fixedHeight ? `${props.fixedHeight}px` : 'auto'
+        }}>
             <Link href={`/u/${props.handle}`}>
                 <h4 className="title is-5 bit-header" style={{ marginBottom: '6px', cursor: 'pointer' }}>
                     {props.displayName}
@@ -73,7 +76,9 @@ BitCard.propTypes = {
     date: PropTypes.string.isRequired,
     numReplies: PropTypes.number,
     numHearts: PropTypes.number,
-    bitID: PropTypes.string.isRequired
+    bitID: PropTypes.string.isRequired,
+    fixedWidth: PropTypes.number,
+    fixedHeight: PropTypes.number
 }
 
 export default BitCard

@@ -1,90 +1,8 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import Nav from '../../components/nav'
-import Link from 'next/link'
-import BiatCard from '../../components/bit-card'
+import BitCard from '../../components/bit-card'
 import Head from 'next/head'
 import { withRouter } from 'next/router'
-
-const BitCard = props => (
-    <div className="bit-card">
-        <p className="bit-display-name">
-            <Link href={"/u/" + props.handle}><a>{props.displayName}</a></Link>&nbsp;&nbsp;
-            <span className="bit-handle">
-                <Link href={"/u/" + props.handle}>
-                    <a>@{props.handle}</a>
-                </Link>
-            </span>
-        </p>
-        <div style={{ height: '6px', lineHeight: '0px' }} />
-        <p className="bit-content">You know, I always wondered why the speed of light was 3.0E8 meters per second. Why that number specifically? #wondering #friday</p>
-        <div style={{ height: '6px', lineHeight: '0px' }} />
-        <p className="bit-date">January 10, 2019 at 9:14 PM</p>
-        <div style={{ height: '6px', lineHeight: '0px' }} />
-        <div className="columns interacts is-mobile">
-            <div className="column">
-                <i className="far fa-comment-alt"></i>&nbsp;&nbsp;<span className="interacts-label">1</span>
-            </div>
-            <div className="column">
-                <i className="far fa-heart"></i>&nbsp;&nbsp;<span className="interacts-label">1</span>
-            </div>
-            <div className="column"></div>
-            <div className="column"></div>
-            <div className="column"></div>
-            <div className="column"></div>
-        </div>
-        <style jsx>{`
-            .bit-card {
-                width: 400px;
-                height: 200px;
-                border-radius: 13px;
-                padding: 12px 14px;
-                margin: 0 auto;
-                margin-bottom: 30px;
-                box-shadow: 0 0.5em 1em -0.125em rgba(0,0,0, 0.1), 0 0px 0 1px rgba(0,0,0, 0.02);
-                border: .5px solid #efefef;
-            }
-            .bit-display-name {
-                font-size: 18px;
-                font-weight: bold;
-                color: black;
-            }
-            .bit-display-name > a {
-                color: black;
-            }
-            .bit-handle {
-                font-weight: 400;
-                color: black;
-            }
-            .bit-handle > a {
-                color: black;
-            }
-            .bit-content {
-                font-weight: 500;
-                font-size: 18px;
-                line-height: 24px;
-                color: black;
-            }
-            .bit-date {
-                font-weight: 500;
-                font-size: 13px;
-                line-height: 17px;
-                color: #5D5D5D;
-            }
-            .interacts {
-                font-size: 13px;
-            }
-            .interacts-label {
-                font-size: 15px;
-            }
-        `}</style>
-    </div>
-)
-
-BitCard.propTypes = {
-    displayName: PropTypes.string,
-    handle: PropTypes.string
-}
 
 class Tag extends Component {
     constructor(props) { 
@@ -118,12 +36,65 @@ class Tag extends Component {
                     </div>
                 </div>
                 <section className="section bit-grid">
-                    <BitCard displayName="John Doe" handle="johndoe" text="hey there" />
-                    <BitCard displayName="Mary Test" handle="mary23" />
-                    <BitCard displayName="Mark Zuck" handle="zuck" />
-                    <BitCard displayName="Sundar Pitch" handle="sundar" />
-                    <BitCard displayName="Aditya" handle="adi" />
-                    <BitCard displayName="Jack" handle="jack" />
+                    <BitCard
+                        displayName="John Doe"
+                        handle="johndoe"
+                        text="You know, I always wondered why the speed of light was 3.0E8 meters per second. Why that number specifically? #wondering #friday"
+                        date="4h"
+                        bitID="128289143893498349"
+                        fixedWidth={400}
+                        fixedHeight={205}
+                    />
+                    <BitCard
+                        displayName="Mary Test"
+                        handle="marytest"
+                        text="You know, I always wondered why the speed of light was 3.0E8 meters per second. Why that number specifically? #wondering #friday"
+                        date="8h"
+                        bitID="128289143893498349"
+                        fixedWidth={400}
+                        fixedHeight={205}
+                    />
+                    <BitCard
+                        displayName="Mark Zuckerberg"
+                        handle="zuck"
+                        text="You know, I always wondered why the speed of light was 3.0E8 meters per second. Why that number specifically? #wondering #friday"
+                        date="14h"
+                        bitID="128289143893498349"
+                        fixedWidth={400}
+                        fixedHeight={205}
+                        verified
+                    />
+                    <BitCard
+                        displayName="Sundar Pitch"
+                        handle="sundar"
+                        text="You know, I always wondered why the speed of light was 3.0E8 meters per second. Why that number specifically? #wondering #friday"
+                        date="1d"
+                        bitID="128289143893498349"
+                        fixedWidth={400}
+                        fixedHeight={205}
+                    />
+                    <BitCard
+                        displayName="Aditya"
+                        handle="adi"
+                        text="You know, I always wondered why the speed of light was 3.0E8 meters per second. Why that number specifically? #wondering #friday"
+                        date="5d"
+                        bitID="128289143893498349"
+                        fixedWidth={400}
+                        fixedHeight={205}
+                        numHearts="4.9k"
+                        numReplies="6.2k"
+                        verified
+                    />
+                    <BitCard
+                        displayName="Jack"
+                        handle="jack"
+                        text="You know, I always wondered why the speed of light was 3.0E8 meters per second. Why that number specifically? #wondering #friday"
+                        date="7d"
+                        bitID="128289143893498349"
+                        fixedWidth={400}
+                        fixedHeight={205}
+                        verified
+                    />
                 </section>
                 <section className="section has-text-centered">
                     <a onClick={this.loadMore.bind(this)}><strong>{this.state.loading ? 'Loading...' : 'Load more...'}</strong></a>
