@@ -28,7 +28,7 @@ const BitView = props => (
                     displayName="Mark Zuckerberg"
                     handle="zuck"
                     text="You know, I always wondered why the speed of light was 3.0E8 meters per second. Why that number specifically? #wondering #friday"
-                    date="12h"
+                    date={Date.now()}
                     numHearts={10}
                     numReplies={1}
                     bitID="128289143893498349"
@@ -47,7 +47,7 @@ const BitView = props => (
                     displayName="Aditya"
                     handle="adi"
                     text="@zuck cool."
-                    date="12h"
+                    date={Date.now()}
                     numHearts={10}
                     numReplies={1}
                     bitID="128289143893498349"
