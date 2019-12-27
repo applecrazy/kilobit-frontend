@@ -60,7 +60,7 @@ class Profile extends Component {
 			},
 			body: JSON.stringify({ page: this.state.page + 1 })
 		}
-		const response = await (await fetch(`${API_ROOT}/bit/${username}`, payload)).json()
+		const response = await (await fetch(`${API_ROOT}/bit/u/${username}`, payload)).json()
 		if (response.status !== 200) {
 			this.setState({ error: true })
 		} else {

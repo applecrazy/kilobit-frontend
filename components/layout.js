@@ -8,6 +8,8 @@ const Layout = props => (
 		<Head>
 			<title key="title">{props.title ? `kilobit: ${props.title}` : 'kilobit'}</title>
 			{props.withIcons ? <link key="icons" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" /> : null}
+			<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+			<link rel="icon" type="image/png" href="/favicon.png" />
 		</Head>
 		{props.withNavbar ? <Nav /> : null}
 		{props.children}
