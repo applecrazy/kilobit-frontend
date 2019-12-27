@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import fetch from 'isomorphic-unfetch'
 import { withRouter } from 'next/router'
 import Error from 'next/error'
 import NProgress from 'nprogress'
@@ -10,7 +9,7 @@ import BitCard from '../../components/bit-card'
 import ProfileHeader from '../../components/profile-header'
 import Layout from '../../components/layout'
 
-const { API_ROOT } = process.env
+import controller from '../../controller'
 
 class Profile extends Component {
 	constructor(props) {
@@ -27,16 +26,8 @@ class Profile extends Component {
 
 	static async getInitialProps({ query }) {
 		const username = query.profile
-		const payload = {
-			method: 'POST',
-			cache: 'no-cache',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ username })
-		}
-		const { status, result: userInfo } = await (await fetch(`${API_ROOT}/user/info`, payload)).json()
-		return { username, status, userInfo }
+		const userData = await controller.getUserInfo(username)
+		return userData
 	}
 
 	async componentDidMount() {
@@ -52,15 +43,7 @@ class Profile extends Component {
 			NProgress.done()
 			return
 		}
-		const payload = {
-			method: 'POST',
-			cache: 'no-cache',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ page: this.state.page + 1 })
-		}
-		const response = await (await fetch(`${API_ROOT}/bit/u/${username}`, payload)).json()
+		const response = await controller.loadUserBits(username, this.state.page + 1)
 		if (response.status !== 200) {
 			this.setState({ error: true })
 		} else {
