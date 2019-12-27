@@ -14,40 +14,44 @@ class BitView extends Component {
 		return bitDetails
 	}
 	render() {
+		const { bitInfo } = this.props
 		return (
 			<Layout withNavbar withIcons>
 				<div className="columns">
 					<div className="column"></div>
 					<div className="column is-6">
 						<BitCard
-							displayName="Mark Zuckerberg"
-							handle="zuck"
-							text={this.props.bitInfo.text}
-							date={this.props.bitInfo.creationDate}
-							numHearts={this.props.bitInfo.likeCount}
-							numReplies={this.props.bitInfo.replyCount}
-							bitID={this.props.bitInfo._id}
-							verified
+							displayName={bitInfo.user.displayName}
+							handle={bitInfo.user.username}
+							text={bitInfo.text}
+							date={bitInfo.creationDate}
+							numHearts={bitInfo.likeCount}
+							numReplies={bitInfo.replyCount}
+							bitID={bitInfo._id}
+							verified={bitInfo.user.verified}
 							hideBottomStats
 						/>
 						<div className="columns is-mobile stats-big">
 							<div className="column has-text-centered">
-								<h3 className="subtitle">{this.props.bitInfo.replyCount} {this.props.bitInfo.replyCount === 1 ? 'reply' : 'replies'}</h3>
+								<h3 className="subtitle">{bitInfo.replyCount} {bitInfo.replyCount === 1 ? 'reply' : 'replies'}</h3>
 							</div>
 							<div className="column has-text-centered">
-								<h3 className="subtitle">{this.props.bitInfo.likeCount} {this.props.bitInfo.likeCount === 1 ? 'like' : 'likes'}</h3>
+								<h3 className="subtitle">{bitInfo.likeCount} {bitInfo.likeCount === 1 ? 'like' : 'likes'}</h3>
 							</div>
 						</div>
-						<BitCard
-							displayName="Aditya"
-							handle="adi"
-							text="@zuck cool."
-							date={Date.now()}
-							numHearts={10}
-							numReplies={1}
-							bitID="128289143893498349"
-							verified
-						/>
+						{bitInfo.replies.map(reply => (
+							<BitCard
+								displayName={reply.user.displayName}
+								handle={reply.user.username}
+								text={reply.text}
+								date={reply.creationDate}
+								numHearts={reply.likeCount}
+								numReplies={reply.replyCount}
+								bitID={reply._id}
+								key={reply._id}
+								verified={reply.user.verified}
+							/>
+						))}
 					</div>
 					<div className="column"></div>
 				</div>
@@ -86,7 +90,13 @@ BitView.propTypes = {
 			likes: PropTypes.arrayOf(PropTypes.string),
 			'_id': PropTypes.string,
 			text: PropTypes.string,
-			user: PropTypes.string,
+			user: PropTypes.shape({
+				displayName: PropTypes.string,
+				username: PropTypes.string,
+				verified: PropTypes.bool,
+				numFollowers: PropTypes.number,
+				botUser: PropTypes.bool
+			}),
 			creationDate: PropTypes.string,
 			replyTo: PropTypes.string,
 			replyToUser: PropTypes.string,
@@ -95,7 +105,13 @@ BitView.propTypes = {
 		likes: PropTypes.arrayOf(PropTypes.string),
 		'_id': PropTypes.string,
 		text: PropTypes.string,
-		user: PropTypes.string,
+		user: PropTypes.shape({
+			displayName: PropTypes.string,
+			username: PropTypes.string,
+			verified: PropTypes.bool,
+			numFollowers: PropTypes.number,
+			botUser: PropTypes.bool
+		}),
 		creationDate: PropTypes.string,
 		replyTo: PropTypes.string,
 		replyToUser: PropTypes.string,

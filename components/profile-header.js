@@ -15,7 +15,7 @@ const ProfileHeader = props => (
 					</h3>
 				</div>
 				<div className="column has-text-right bit-count">
-					{`${props.numBits} bits`}
+					{`${props.numBits} ${props.numBits === 1 ? 'bit' : 'bits'}`}
 				</div>
 			</div>
 		</div>
