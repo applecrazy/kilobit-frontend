@@ -5,7 +5,9 @@ const Nav = () => (
 	<nav className="navbar is-primary">
 		<div className="navbar-brand">
 			<div className="navbar-item">
-				<img src="/branding/kilobit-wordmark.svg" width="90%" />
+				<Link href="/">
+					<img src="/branding/kilobit-wordmark.svg" width="90%" />
+				</Link>
 			</div>
 		</div>
 		<div className="navbar-end">
