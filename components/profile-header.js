@@ -18,15 +18,6 @@ const ProfileHeader = props => (
 					{`${props.numBits} bits`}
 				</div>
 			</div>
-			<div className="level">
-				<div className="level-left">
-					<div className="level-item">
-						<div className="tag is-primary is-light is-rounded is-white">
-							<strong className="has-text-primary">Joined December 2019</strong>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 		<style jsx>{`
 			.displayname {

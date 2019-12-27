@@ -3,10 +3,7 @@ import classNames from 'classnames'
 import Link from 'next/link'
 import '../styles/styles.sass'
 
-import JavascriptTimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en'
-JavascriptTimeAgo.locale(en)
-import ReactTimeAgo from 'react-time-ago'
+import TimeAgo from 'timeago-react'
 
 const BitCard = props => (
 	<Link href={`/bit/${props.bitID}`}>
@@ -24,7 +21,9 @@ const BitCard = props => (
 				</h4>
 			</Link>
 			<p className="bit-text">{props.text}</p>
-			<p className="bit-date">{<ReactTimeAgo date={props.date} timeStyle="twitter" />}</p>
+			<p className="bit-date">
+				<TimeAgo datetime={props.date} />
+			</p>
 			<div className={classNames('columns', 'interacts', 'is-mobile', { 'is-hidden': props.hideBottomStats })}>
 				<div className="column is-3">
 					<i className="far fa-comment-alt"></i>&nbsp;&nbsp;<span className="interacts-label">{props.numReplies || 0}</span>
