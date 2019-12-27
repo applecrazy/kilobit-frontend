@@ -20,7 +20,8 @@ class Profile extends Component {
 			page: 0,
 			totalPages: 1,
 			totalBits: 0,
-			error: false
+			error: false,
+			noBits: false
 		}
 	}
 
@@ -45,7 +46,11 @@ class Profile extends Component {
 		}
 		const response = await controller.loadUserBits(username, this.state.page + 1)
 		if (response.status !== 200) {
-			this.setState({ error: true })
+			if (this.state.page === 0) {
+				this.setState({ noBits: true, totalPages: 0 })
+			} else {
+				this.setState({ error: true })
+			}
 		} else {
 			this.setState({
 				bits: this.state.bits.concat(response.result.docs),
@@ -91,7 +96,8 @@ class Profile extends Component {
 										date={bit.creationDate}
 									/>
 							)}
-							{this.state.bits.length === 0 ? <h1 className="subtitle has-text-centered"><br />Loading bits...</h1> : null}
+							{this.state.bits.length === 0 && !this.state.noBits ? <h1 className="subtitle has-text-centered"><br />Loading bits...</h1> : null}
+							{this.state.noBits ? <h1 className="subtitle has-text-centered"><br />This user hasn&apos;t posted a Bit yet.</h1> : null}
 						</div>
 						<div className="column is-hidden-mobile"></div>
 					</div>
