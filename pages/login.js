@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
+import { Router } from 'next/router'
 import Layout from '../components/layout'
+
+import jwtDecode from 'jwt-decode'
 
 class Login extends Component {
 	constructor(props) {
@@ -7,6 +10,17 @@ class Login extends Component {
 		this.state = {
 			username: '',
 			password: ''
+		}
+	}
+
+	componentDidMount() {
+		const token = localStorage.getItem('token')
+		const currentTime = Math.floor(Date.now() / 1000)
+		if (token) {
+			const tokenValid = jwtDecode(token).exp > currentTime
+			if (tokenValid) {
+				Router.push('/feed')
+			}
 		}
 	}
 
