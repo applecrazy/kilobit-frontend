@@ -87,7 +87,12 @@ BitCard.propTypes = {
 	bitID: PropTypes.string.isRequired,
 	fixedWidth: PropTypes.number,
 	fixedHeight: PropTypes.number,
-	hideBottomStats: PropTypes.bool
+	hideBottomStats: PropTypes.bool,
+	mentions: PropTypes.arrayOf(PropTypes.shape({
+		_id: PropTypes.string,
+		mentionText: PropTypes.string
+	})),
+	tags: PropTypes.arrayOf(PropTypes.string)
 }
 
 export default BitCard

@@ -94,6 +94,8 @@ class Profile extends Component {
 										numHearts={bit.likeCount}
 										numReplies={bit.replyCount}
 										date={bit.creationDate}
+										mentions={bit.mentions}
+										tags={bit.tags}
 									/>
 							)}
 							{this.state.bits.length === 0 && !this.state.noBits ? <h1 className="subtitle has-text-centered"><br />Loading bits...</h1> : null}

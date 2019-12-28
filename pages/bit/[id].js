@@ -29,6 +29,8 @@ class BitView extends Component {
 							numReplies={bitInfo.replyCount}
 							bitID={bitInfo._id}
 							verified={bitInfo.user.verified}
+							mentions={bitInfo.mentions}
+							tags={bitInfo.tags}
 							hideBottomStats
 						/>
 						<div className="columns is-mobile stats-big">
@@ -49,6 +51,8 @@ class BitView extends Component {
 								numReplies={reply.replyCount}
 								bitID={reply._id}
 								key={reply._id}
+								mentions={reply.mentions}
+								tags={reply.tags}
 								verified={reply.user.verified}
 							/>
 						))}
@@ -97,6 +101,11 @@ BitView.propTypes = {
 				numFollowers: PropTypes.number,
 				botUser: PropTypes.bool
 			}),
+			mentions: PropTypes.arrayOf(PropTypes.shape({
+				_id: PropTypes.string,
+				mentionText: PropTypes.string
+			})),
+			tags: PropTypes.arrayOf(PropTypes.string),
 			creationDate: PropTypes.string,
 			replyTo: PropTypes.string,
 			replyToUser: PropTypes.string,
@@ -115,6 +124,11 @@ BitView.propTypes = {
 		creationDate: PropTypes.string,
 		replyTo: PropTypes.string,
 		replyToUser: PropTypes.string,
+		mentions: PropTypes.arrayOf(PropTypes.shape({
+			_id: PropTypes.string,
+			mentionText: PropTypes.string
+		})),
+		tags: PropTypes.arrayOf(PropTypes.string),
 	})
 }
 
