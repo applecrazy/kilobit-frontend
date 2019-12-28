@@ -4,9 +4,15 @@ import Link from 'next/link'
 import '../styles/styles.sass'
 
 import TimeAgo from 'timeago-react'
+import * as linkify from 'linkifyjs'
+import hashtag from 'linkifyjs/plugins/hashtag'
+import mention from 'linkifyjs/plugins/mention'
+import Linkify from 'linkifyjs/react'
+hashtag(linkify)
+mention(linkify)
 
 const BitCard = props => (
-	<Link href={`/bit/${props.bitID}`}>
+	<Link href={props.hideBottomStats ? null : `/bit/${props.bitID}`}>
 		<div className="box" style={{
 			width: props.fixedWidth ? `${props.fixedWidth}px` : 'auto',
 			height: props.fixedHeight ? `${props.fixedHeight}px` : 'auto'
@@ -20,7 +26,19 @@ const BitCard = props => (
 					<span className="handle">@{props.handle}</span>
 				</h4>
 			</Link>
-			<p className="bit-text">{props.text}</p>
+			<p className="bit-text">
+				<Linkify options={{
+					formatHref: {
+						hashtag: (val) => '/t/' + val.substr(1),
+						mention: (val) => '/u' + val
+					},
+					validate: {
+						email: false,
+						url: props.verified
+					},
+					tagName: () => Link
+				}}>{props.text}</Linkify>
+			</p>
 			<p className="bit-date">
 				<TimeAgo datetime={props.date} />
 			</p>
