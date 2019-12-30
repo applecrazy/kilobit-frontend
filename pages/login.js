@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import Router from 'next/router'
 import Layout from '../components/layout'
 
-import jwtDecode from 'jwt-decode'
-
 import controller from '../controller'
 
 class Login extends Component {
