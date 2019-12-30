@@ -1,27 +1,25 @@
 import React, { Component } from 'react'
-import { Router } from 'next/router'
+import Router from 'next/router'
 import Layout from '../components/layout'
 
 import jwtDecode from 'jwt-decode'
+
+import controller from '../controller'
 
 class Login extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
 			username: '',
-			password: ''
+			password: '',
+			token: null,
+			error: null
 		}
 	}
 
 	componentDidMount() {
-		const token = localStorage.getItem('token')
-		const currentTime = Math.floor(Date.now() / 1000)
-		if (token) {
-			const tokenValid = jwtDecode(token).exp > currentTime
-			if (tokenValid) {
-				Router.push('/feed')
-			}
-		}
+		const isAuth = controller.isAuthenticated()
+		if (isAuth) Router.push('/feed')
 	}
 
 	changeState(e) {
@@ -30,8 +28,39 @@ class Login extends Component {
 		this.setState(newState)
 	}
 
-	submit() {
-		alert(JSON.stringify(this.state))
+	detectEnter(e) { 
+		console.log(e.key)
+		if (e.key === 'Enter') {
+			this.submit()
+			e.preventDefault()
+		}
+	}
+
+	async submit() {
+		const { username, password } = this.state
+		if (!username || !password || username === '' || password === '') {
+			this.setState({ error: 'The username or password is missing.' })
+			return
+		}
+		const { status, token } = await controller.login(username, password)
+		switch (status) {
+			case 200:
+				break
+			case 401:
+				this.setState({ error: 'The username or password you entered is incorrect.' })
+				return
+			case 404:
+				this.setState({ error: 'An account with that username doesn\'t exist.' })
+				return
+			default:
+			case 500:
+				this.setState({ error: 'Something went wrong. Try again?' })
+				return
+		}
+		console.log(token)
+		localStorage.setItem('token', token)
+		this.setState({ error: null, token })
+		Router.push('/feed')
 	}
 
 	render() {
@@ -63,6 +92,10 @@ class Login extends Component {
 							<img src="../branding/kilobit-wordmark-color.svg" alt="kilobit wordmark" />
 							<br />
 							<br />
+							{this.state.error ?
+								<div className="notification is-danger"><strong>{this.state.error}</strong></div>
+								: null
+							}
 							<input
 								type="input"
 								name="username"
@@ -71,6 +104,7 @@ class Login extends Component {
 								placeholder="username"
 								onChange={this.changeState.bind(this)}
 								value={this.state.username}
+								onKeyUp={this.detectEnter.bind(this)}
 							/>
 							<br />
 							<br />
@@ -82,6 +116,7 @@ class Login extends Component {
 								placeholder="password"
 								onChange={this.changeState.bind(this)}
 								value={this.state.password}
+								onKeyUp={this.detectEnter.bind(this)}
 							/>
 							<br />
 							<br />
