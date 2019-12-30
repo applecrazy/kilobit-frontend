@@ -3,6 +3,8 @@ import App from 'next/app'
 import NProgress from 'nprogress'
 import Router from 'next/router'
 import Head from 'next/head'
+import { Provider } from 'react-redux'
+import store from '../store'
 
 NProgress.configure({ showSpinner: false })
 
@@ -21,7 +23,9 @@ export default class KilobitApp extends App {
 				<Head>
 					<link rel="stylesheet" href="/nprogress.css" />
 				</Head>
-				<Component {...pageProps} />
+				<Provider store={store}>
+					<Component {...pageProps} />
+				</Provider>
 			</>
 		)
 	}
