@@ -1,4 +1,4 @@
-import { REQUEST_USER_INFO, RECEIVE_USER_INFO, PROCESS_ERROR, REJECT_USER_INFO, CLEAR_ERROR, REQUEST_USER_BITS, REJECT_USER_BITS, RECEIVE_USER_BITS, REQUEST_BIT_INFO, REJECT_BIT_INFO, RECEIVE_BIT_INFO } from '../actions'
+import { REQUEST_USER_INFO, RECEIVE_USER_INFO, PROCESS_ERROR, REJECT_USER_INFO, CLEAR_ERROR, REQUEST_USER_BITS, REJECT_USER_BITS, RECEIVE_USER_BITS, REQUEST_BIT_INFO, REJECT_BIT_INFO, RECEIVE_BIT_INFO, REQUEST_LOGIN_TOKEN, REJECT_LOGIN_TOKEN, RECEIVE_LOGIN_TOKEN } from '../actions'
 const initialState = {
 	error: null, // string error?
 	status: 200, // status code
@@ -43,6 +43,12 @@ function kilobitApp(state = initialState, action) {
 			return { ...state, loadingBitInfo: false }
 		case RECEIVE_BIT_INFO:
 			return { ...state, loadingBitInfo: false, status: 200, error: null, curBitInfo: action.info }
+		case REQUEST_LOGIN_TOKEN:
+			return { ...state, loadingAuth: true }
+		case REJECT_LOGIN_TOKEN:
+			return { ...state, loadingAuth: false }
+		case RECEIVE_LOGIN_TOKEN:
+			return { ...state, loadingAuth: false, status: 200, error: null, authToken: action.token }
 		default:
 			return state
 	}

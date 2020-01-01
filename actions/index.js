@@ -1,5 +1,7 @@
 import fetch from 'isomorphic-unfetch'
-const { API_ROOT } = process.env
+
+const API_ROOT = process.env.API_ROOT
+const CLIENT_NAME = process.env.CLIENT_NAME
 
 // general actions
 export const CLEAR_ERROR = 'CLEAR_ERROR'
@@ -39,13 +41,17 @@ export const PROCESS_ERROR = 'PROCESS_ERROR'
 export const ERROR_TYPES = {
 	API_INACCESSIBLE: 'API_INACCESSIBLE',
 	NOT_FOUND: 'NOT_FOUND',
-	'OTHER_ERROR': 'OTHER_ERROR'
+	OTHER_ERROR: 'OTHER_ERROR',
+	INCORRECT_CREDENTIALS: 'INCORRECT_CREDENTIALS'
 }
 export function processError(error) {
 	let status
 	switch (error) {
 		case ERROR_TYPES.NOT_FOUND:
 			status = 404
+			break
+		case ERROR_TYPES.INCORRECT_CREDENTIALS:
+			status = 401
 			break
 		case ERROR_TYPES.API_INACCESSIBLE:
 		case ERROR_TYPES.OTHER_ERROR:
@@ -223,5 +229,69 @@ export function getBitInfo(bitID) {
 				return Promise.reject(null)
 			})
 			.catch(() => dispatch(rejectBitInfo()))
+	}
+}
+
+// logging in
+export const REQUEST_LOGIN_TOKEN = 'REQUEST_LOGIN_TOKEN'
+function requestLoginToken() {
+	return {
+		type: REQUEST_LOGIN_TOKEN
+	}
+}
+
+export const RECEIVE_LOGIN_TOKEN = 'RECEIVE_LOGIN_TOKEN'
+function receiveLoginToken(json) {
+	return {
+		type: RECEIVE_LOGIN_TOKEN,
+		token: json.token
+	}
+}
+
+export const REJECT_LOGIN_TOKEN = 'REJECT_LOGIN_TOKEN'
+function rejectLoginToken() {
+	return {
+		type: REJECT_LOGIN_TOKEN
+	}
+}
+
+export function login(username, password) {
+	return (dispatch) => {
+		dispatch(requestLoginToken())
+		const payload = {
+			method: 'POST',
+			cache: 'no-cache',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ username, password, client: CLIENT_NAME || 'kilobit - unknown' })
+		}
+		return fetch(`${API_ROOT}/login`, payload)
+			.then(
+				response => response.json(),
+				err => {
+					dispatch(processError(ERROR_TYPES.API_INACCESSIBLE))
+					return Promise.reject(err)
+				}
+			)
+			.then(json => {
+				switch (json.status) {
+					case 200:
+						dispatch(receiveLoginToken(json))
+						return
+					case 401:
+						dispatch(processError(ERROR_TYPES.INCORRECT_CREDENTIALS))
+						break
+					case 400:
+					case 404:
+						dispatch(processError(ERROR_TYPES.NOT_FOUND))
+						break
+					case 500:
+					default:
+						dispatch(processError(ERROR_TYPES.OTHER_ERROR))
+				}
+				return Promise.reject(null)
+			})
+			.catch(() => dispatch(rejectLoginToken()))
 	}
 }
