@@ -1,4 +1,4 @@
-import { REQUEST_USER_INFO, RECEIVE_USER_INFO, PROCESS_ERROR, REJECT_USER_INFO, CLEAR_ERROR, REQUEST_USER_BITS, REJECT_USER_BITS, RECEIVE_USER_BITS } from '../actions'
+import { REQUEST_USER_INFO, RECEIVE_USER_INFO, PROCESS_ERROR, REJECT_USER_INFO, CLEAR_ERROR, REQUEST_USER_BITS, REJECT_USER_BITS, RECEIVE_USER_BITS, REQUEST_BIT_INFO, REJECT_BIT_INFO, RECEIVE_BIT_INFO } from '../actions'
 const initialState = {
 	error: null, // string error?
 	status: 200, // status code
@@ -12,7 +12,9 @@ const initialState = {
 	totalBitPages: 1,
 	bitType: 'USER_BITS', // type of bits that are stored
 	curUserInfo: null, // object
-	loadingUserInfo: false
+	loadingUserInfo: false,
+	loadingBitInfo: false,
+	curBitInfo: null
 }
 
 function kilobitApp(state = initialState, action) {
@@ -35,6 +37,12 @@ function kilobitApp(state = initialState, action) {
 			const { bits, curBitPage, totalBitPages } = action
 			return { ...state, bitType: 'USER_BITS', loadingBits: false, status: 200, error: null, bits: state.bits.concat(bits), curBitPage, totalBitPages }
 		}
+		case REQUEST_BIT_INFO:
+			return { ...state, loadingBitInfo: true }
+		case REJECT_BIT_INFO:
+			return { ...state, loadingBitInfo: false }
+		case RECEIVE_BIT_INFO:
+			return { ...state, loadingBitInfo: false, status: 200, error: null, curBitInfo: action.info }
 		default:
 			return state
 	}

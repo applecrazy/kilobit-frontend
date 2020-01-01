@@ -165,3 +165,63 @@ export function getUserBits(username) {
 			.catch(() => dispatch(rejectUserBits()))
 	}
 }
+
+// bit info
+export const REQUEST_BIT_INFO = 'REQUEST_BIT_INFO'
+function requestBitInfo(bitID) {
+	return {
+		type: REQUEST_BIT_INFO,
+		bitID
+	}
+}
+
+export const RECEIVE_BIT_INFO = 'RECEIVE_BIT_INFO'
+function receiveBitInfo(bitID, infoJSON) {
+	return {
+		type: RECEIVE_BIT_INFO,
+		bitID,
+		info: infoJSON
+	}
+}
+
+export const REJECT_BIT_INFO = 'REJECT_BIT_INFO'
+function rejectBitInfo() {
+	return {
+		type: REJECT_BIT_INFO
+	}
+}
+
+export function getBitInfo(bitID) {
+	return (dispatch) => {
+		dispatch(requestBitInfo(bitID))
+		const payload = {
+			method: 'GET',
+			cache: 'no-cache'
+		}
+		return fetch(`${API_ROOT}/bit/${bitID}`, payload)
+			.then(
+				response => response.json(),
+				err => {
+					dispatch(processError(ERROR_TYPES.API_INACCESSIBLE))
+					return Promise.reject(err)
+				}
+			)
+			.then(json => {
+				switch (json.status) {
+					case 200:
+						dispatch(receiveBitInfo(bitID, json))
+						return
+					case 400:
+					case 404:
+						dispatch(processError(ERROR_TYPES.NOT_FOUND))
+						break
+					case 500:
+					default:
+						dispatch(processError(ERROR_TYPES.OTHER_ERROR))
+
+				}
+				return Promise.reject(null)
+			})
+			.catch(() => dispatch(rejectBitInfo()))
+	}
+}
