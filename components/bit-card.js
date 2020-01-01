@@ -11,8 +11,19 @@ import Linkify from 'linkifyjs/react'
 hashtag(linkify)
 mention(linkify)
 
+const LinkifyLink = props => (
+	<Link href={props.href}>
+		<a>{props.children}</a>
+	</Link>
+)
+
+LinkifyLink.propTypes = {
+	href: PropTypes.string,
+	children: PropTypes.any
+}
+
 const BitCard = props => (
-	<Link href={props.hideBottomStats ? null : `/bit/${props.bitID}`}>
+	<Link href={`/bit/${props.bitID}`}>
 		<div className="box" style={{
 			width: props.fixedWidth ? `${props.fixedWidth}px` : 'auto',
 			height: props.fixedHeight ? `${props.fixedHeight}px` : 'auto'
@@ -36,7 +47,7 @@ const BitCard = props => (
 						email: false,
 						url: props.verified
 					},
-					tagName: () => Link
+					tagName: () => LinkifyLink
 				}}>{props.text}</Linkify>
 			</p>
 			<p className="bit-date">
