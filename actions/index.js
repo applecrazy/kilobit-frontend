@@ -1,8 +1,15 @@
 import fetch from 'isomorphic-unfetch'
-
-
 const { API_ROOT } = process.env
 
+// general actions
+export const CLEAR_ERROR = 'CLEAR_ERROR'
+export function clearError() {
+	return {
+		type: CLEAR_ERROR
+	}
+}
+
+// user info
 export const REQUEST_USER_INFO = 'REQUEST_USER_INFO'
 function requestUserInfo(username) {
 	return {
@@ -53,13 +60,6 @@ export function processError(error) {
 	}
 }
 
-export const CLEAR_ERROR = 'CLEAR_ERROR'
-export function clearError() { 
-	return {
-		type: CLEAR_ERROR
-	}
-}
-
 export function getUserInfo(username) {
 	return dispatch => {
 		dispatch(requestUserInfo(username))
@@ -94,5 +94,74 @@ export function getUserInfo(username) {
 				return Promise.reject(null)
 			})
 			.catch(() => dispatch(rejectUserInfo()))
+	}
+}
+
+// user bits
+export const REQUEST_USER_BITS = 'REQUEST_USER_BITS'
+function requestUserBits(username) {
+	return {
+		type: REQUEST_USER_BITS,
+		username
+	}
+}
+
+export const RECEIVE_USER_BITS = 'RECEIVE_USER_BITS'
+function receiveUserBits(username, infoJSON) {
+	return {
+		type: RECEIVE_USER_BITS,
+		username,
+		bits: infoJSON.result.docs,
+		curBitPage: infoJSON.result.page,
+		totalBitPages: infoJSON.result.totalPages
+	}
+}
+
+export const REJECT_USER_BITS = 'REJECT_USER_BITS'
+function rejectUserBits() {
+	return {
+		type: REJECT_USER_BITS
+	}
+}
+
+export function getUserBits(username) {
+	return (dispatch, getState) => {
+		if (getState().curBitPage + 1 > getState().totalBitPages) {
+			return
+		}
+		dispatch(requestUserBits(username))
+		const payload = {
+			method: 'POST',
+			cache: 'no-cache',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ page: getState().curBitPage + 1 })
+		}
+		return fetch(`${API_ROOT}/bit/u/${username}`, payload)
+			.then(
+				response => response.json(),
+				err => {
+					dispatch(processError(ERROR_TYPES.API_INACCESSIBLE))
+					return Promise.reject(err)
+				}
+			)
+			.then(json => {
+				switch (json.status) {
+					case 200:
+						dispatch(receiveUserBits(username, json))
+						return
+					case 404:
+						dispatch(processError(ERROR_TYPES.NOT_FOUND))
+						break
+					case 400:
+					case 500:
+					default:
+						dispatch(processError(ERROR_TYPES.OTHER_ERROR))
+
+				}
+				return Promise.reject(null)
+			})
+			.catch(() => dispatch(rejectUserBits()))
 	}
 }
