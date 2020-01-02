@@ -13,4 +13,11 @@ const store = createStore(
 	)
 )
 
+store.subscribe(() => {
+	const token = store.getState().authToken
+	if (token) {
+		localStorage.setItem('token', store.getState().authToken)
+	}
+})
+
 export default store

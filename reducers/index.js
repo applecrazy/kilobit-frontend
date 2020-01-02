@@ -1,11 +1,13 @@
 import { REQUEST_USER_INFO, RECEIVE_USER_INFO, PROCESS_ERROR, REJECT_USER_INFO, CLEAR_ERROR, REQUEST_USER_BITS, REJECT_USER_BITS, RECEIVE_USER_BITS, REQUEST_BIT_INFO, REJECT_BIT_INFO, RECEIVE_BIT_INFO, REQUEST_LOGIN_TOKEN, REJECT_LOGIN_TOKEN, RECEIVE_LOGIN_TOKEN } from '../actions'
+// TODO: validate stored token, if invalid throw it away
+const initialToken = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null
 const initialState = {
 	error: null, // string error?
 	status: 200, // status code
 	loadingAuth: false,
 	loggedInUser: null, // logged in user info
-	isLoggedIn: false, // boolean
-	authToken: null, // auth token, string
+	isLoggedIn: initialToken !== null, // boolean
+	authToken: initialToken, // auth token, string
 	loadingBits: false,
 	bits: [], // bit array
 	curBitPage: 0,
@@ -48,7 +50,7 @@ function kilobitApp(state = initialState, action) {
 		case REJECT_LOGIN_TOKEN:
 			return { ...state, loadingAuth: false }
 		case RECEIVE_LOGIN_TOKEN:
-			return { ...state, loadingAuth: false, status: 200, error: null, authToken: action.token }
+			return { ...state, loadingAuth: false, isLoggedIn: true, status: 200, error: null, authToken: action.token }
 		default:
 			return state
 	}
