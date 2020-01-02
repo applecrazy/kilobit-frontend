@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Nav from '../../components/nav'
-import BitCard from '../../components/bit-card'
 import Head from 'next/head'
 import { withRouter } from 'next/router'
+
+import BitCard from '../../components/bit-card'
+import Nav from '../../components/nav'
 
 class Tag extends Component {
 	constructor(props) { 

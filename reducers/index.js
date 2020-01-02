@@ -1,4 +1,5 @@
 import { REQUEST_USER_INFO, RECEIVE_USER_INFO, PROCESS_ERROR, REJECT_USER_INFO, CLEAR_ERROR, REQUEST_USER_BITS, REJECT_USER_BITS, RECEIVE_USER_BITS, REQUEST_BIT_INFO, REJECT_BIT_INFO, RECEIVE_BIT_INFO, REQUEST_LOGIN_TOKEN, REJECT_LOGIN_TOKEN, RECEIVE_LOGIN_TOKEN } from '../actions'
+
 // TODO: validate stored token, if invalid throw it away
 const initialToken = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null
 const initialState = {

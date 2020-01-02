@@ -1,8 +1,11 @@
 /* eslint-disable */
 import { useState } from 'react'
+
 import { connect } from 'react-redux'
 import { getUserInfo, getUserBits, getBitInfo, login } from '../actions'
+
 import Layout from '../components/layout'
+
 import classNames from 'classnames'
 
 const Reduxed = props => {

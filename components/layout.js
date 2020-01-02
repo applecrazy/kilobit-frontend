@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types'
 import Head from 'next/head'
+
 import Nav from './nav'
+
 import '../styles/styles.sass'
 
 const Layout = props => (

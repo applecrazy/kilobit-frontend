@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'next/router'
 import Error from 'next/error'
+
 import NProgress from 'nprogress'
 import BottomScrollListener from 'react-bottom-scroll-listener'
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Link from 'next/link'
 
 import { connect } from 'react-redux'
@@ -25,6 +26,10 @@ class Nav extends Component {
 			</nav>
 		)
 	}
+}
+
+Nav.propTypes = {
+	loggedIn: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => {

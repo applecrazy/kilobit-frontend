@@ -1,15 +1,18 @@
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
 import Link from 'next/link'
-import '../styles/styles.sass'
+
+import classNames from 'classnames'
 
 import TimeAgo from 'timeago-react'
+
 import * as linkify from 'linkifyjs'
 import hashtag from 'linkifyjs/plugins/hashtag'
 import mention from 'linkifyjs/plugins/mention'
 import Linkify from 'linkifyjs/react'
 hashtag(linkify)
 mention(linkify)
+
+import '../styles/styles.sass'
 
 const LinkifyLink = props => (
 	<Link href={props.href}>
