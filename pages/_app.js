@@ -4,7 +4,8 @@ import Router from 'next/router'
 import Head from 'next/head'
 
 import { Provider } from 'react-redux'
-import store from '../store'
+import makeStore from '../store'
+import withRedux from 'next-redux-wrapper'
 
 import NProgress from 'nprogress'
 
@@ -17,9 +18,13 @@ Router.events.on('routeChangeStart', url => {
 Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
 
-export default class KilobitApp extends App {
+class KilobitApp extends App {
+	static async getInitialProps({ Component, ctx }) {
+		const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {}
+		return { pageProps }
+	}
 	render() {
-		const { Component, pageProps } = this.props
+		const { Component, pageProps, store } = this.props
 		return (
 			<>
 				<Head>
@@ -32,3 +37,5 @@ export default class KilobitApp extends App {
 		)
 	}
 }
+
+export default withRedux(makeStore)(KilobitApp)
