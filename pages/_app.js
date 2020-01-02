@@ -23,6 +23,14 @@ class KilobitApp extends App {
 		const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {}
 		return { pageProps }
 	}
+	componentDidMount() {
+		this.props.store.subscribe(() => {
+			const token = this.props.store.getState().authToken
+			if (token) {
+				localStorage.setItem('token', this.props.store.getState().authToken)
+			}
+		})
+	}
 	render() {
 		const { Component, pageProps, store } = this.props
 		return (
