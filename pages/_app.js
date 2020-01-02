@@ -1,10 +1,12 @@
 import React from 'react'
 import App from 'next/app'
-import NProgress from 'nprogress'
 import Router from 'next/router'
 import Head from 'next/head'
+
 import { Provider } from 'react-redux'
 import store from '../store'
+
+import NProgress from 'nprogress'
 
 NProgress.configure({ showSpinner: false })
 
