@@ -1,20 +1,9 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
 
-import controller from '../controller'
+import { connect } from 'react-redux'
 
 class Nav extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			isAuth: false
-		}
-	}
-
-	componentDidMount() {
-		const isAuth = controller.isAuthenticated()
-		this.setState({ isAuth })
-	}
 	render() {
 		return (
 			<nav className="navbar is-primary">
@@ -28,8 +17,8 @@ class Nav extends Component {
 				<div className="navbar-end">
 					<div className="navbar-item">
 						<div className="buttons has-text-centered-mobile">
-							{!this.state.isAuth ? <Link href="/login"><a className="button is-white is-rounded has-text-primary"><strong>Login</strong></a></Link> : null}
-							{!this.state.isAuth ? <Link href="/signup"><a className="button is-white is-rounded is-outlined"><strong>Sign up</strong></a></Link> : null}
+							{!this.props.loggedIn ? <Link href="/login"><a className="button is-white is-rounded has-text-primary"><strong>Login</strong></a></Link> : null}
+							{!this.props.loggedIn ? <Link href="/signup"><a className="button is-white is-rounded is-outlined"><strong>Sign up</strong></a></Link> : null}
 						</div>
 					</div>
 				</div>
@@ -38,4 +27,10 @@ class Nav extends Component {
 	}
 }
 
-export default Nav
+const mapStateToProps = state => {
+	return {
+		loggedIn: state.isLoggedIn
+	}
+}
+
+export default connect(mapStateToProps, {})(Nav)
