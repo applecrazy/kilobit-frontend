@@ -29,7 +29,7 @@ class Nav extends Component {
 }
 
 Nav.propTypes = {
-	loggedIn: PropTypes.bool.isRequired
+	loggedIn: PropTypes.bool
 }
 
 const mapStateToProps = state => {
