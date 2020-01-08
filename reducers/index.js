@@ -35,7 +35,8 @@ const initialState = {
 	},
 	bits: {
 		loading: false,
-		type: 'USER',
+		error: null,
+		type: 'USER', // types will include: 'USER', 'TAG' (for bittag lists)
 		page: {
 			current: 0,
 			total: 1
@@ -125,56 +126,24 @@ function userBitsReceived(bitsState, action) {
 	}
 }
 
+function userBitsError(bitsState, action) {
+	return {
+		...(initialState.bits),
+		error: action.error,
+	}
+}
+
 const bitsReducer = createReducer(initialState.bits, {
 	'USER_BITS_REQ_BEGIN': userBitsBegin,
 	'USER_BITS_REQ_RECEIVED': userBitsReceived,
-	'USER_BITS_REQ_CANCEL': userBitsCancel
-	// 'PROFILE_REQ_ERROR': profileError
+	'USER_BITS_REQ_CANCEL': userBitsCancel,
+	'USER_BITS_REQ_ERROR': userBitsError
 })
 
 const kilobitApp = combineReducers({
+	bits: bitsReducer,
 	profile: profileReducer,
-	bits: bitsReducer
 })
-
-// const profileReducer = createReducer(newInitialState.profile, {
-// 	REQUEST_USER_INFO: requestUserInfo,
-// 	REJECT_USER_INFO: rejectUserInfo,
-// 	RECEIVE_USER_INFO: receiveUserInfo,
-// })
-
-// function requestUserInfo(state, action) {
-// 	return { ...state, loading: true }
-// }
-
-// function rejectUserInfo(state, action) {
-// 	return { ...state, loading: false }
-// }
-
-// function receiveUserInfo(state, action) {
-// 	return { ...state, curUserInfo: action.info, loadingUserInfo: false, status: 200, error: null }
-// }
-
-// function processError(state, action) {
-// 	return { ...state, status: action.status, error: action.error }
-// }
-
-// function clearError(state, action) {
-// 	return { ...state, status: initialState.status, error: null }
-// }
-
-// function requestUserBits(state, action) {
-// 	return { ...state, loadingBits: true }
-// }
-
-// function rejectUserBits(state, action) {
-// 	return { ...state, loadingBits: false }
-// }
-
-// function receiveUserBits(state, action) {
-// 	const { bits, curBitPage, totalBitPages } = action
-// 	return { ...state, bitType: 'USER_BITS', loadingBits: false, status: 200, error: null, bits: state.bits.concat(bits), curBitPage, totalBitPages }
-// }
 
 // function requestBitInfo(state, action) {
 // 	return { ...state, loadingBitInfo: true }
