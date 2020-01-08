@@ -1,16 +1,41 @@
 // profile actions
+
+/**
+ * Action creator to initiate profile-getting saga.
+ * Dispatching this will begin asynchronously fetch the profile 
+ * matching the given username (via a Saga).
+ * @param {string} username The username of the profile we want to get.
+ * @returns {object} The created action.
+ */
 export function profileGet(username) {
 	return {
 		type: 'PROFILE_GET',
 		username
 	}
 }
+
+/**
+ * NOTE: This action should only be dispatched by a saga.
+ * 
+ * Action creator to signify the beginning of profile loading.
+ * Dispatching this will mark the current profile as loading.
+ * @returns {object} The created action.
+ */
 export function profileBegin() {
 	return {
 		type: 'PROFILE_REQ_BEGIN'
 	}
 }
 
+/**
+ * NOTE: This action should only be dispatched by a saga.
+ * 
+ * Action creator to receive profile data.
+ * Dispatching this will unmark the current profile as loading,
+ * clear any errors, and store the profile data.
+ * @param {object} profile The profile data to store.
+ * @returns {object} The created action.
+ */
 export function profileReceived(profile) {
 	return {
 		type: 'PROFILE_REQ_RECEIVED',
@@ -18,6 +43,13 @@ export function profileReceived(profile) {
 	}
 }
 
+/**
+ * NOTE: This action should only be dispatched by a saga.
+ * 
+ * Action creator to signify something went wrong when fetching profile data. 
+ * @param {any} error An error message specifying what went wrong.
+ * @returns The created action.
+ */
 export function profileError(error) {
 	return {
 		type: 'PROFILE_REQ_ERROR',
@@ -25,6 +57,13 @@ export function profileError(error) {
 	}
 }
 
+/**
+ * Action creator to initiate saga to retrieve user bits.
+ * Dispatching this will begin asynchronously fetch bits
+ * posted by the given username (via a Saga).
+ * @param {string} username The username to get bits for.
+ * @returns {object} The created action.
+ */
 export function userBitsGet(username) {
 	return {
 		type: 'USER_BITS_GET',
@@ -32,18 +71,43 @@ export function userBitsGet(username) {
 	}
 }
 
+/**
+ * NOTE: This action should only be dispatched by a saga.
+ * 
+ * Action creator to signify the beginning of user bit loading.
+ * Dispatching this will mark current bits as loading.
+ */
 export function userBitsBegin() {
 	return {
 		type: 'USER_BITS_REQ_BEGIN'
 	}
 }
 
+/**
+ * NOTE: This action should only be dispatched by a saga.
+ * 
+ * Action creator to signify a canceled request.
+ * Dispatching this doesn't set an error state and only
+ * marks the bits as not loading.
+ */
 export function userBitsCancel() {
 	return {
 		type: 'USER_BITS_REQ_CANCEL'
 	}
 }
 
+/**
+ * NOTE: This action should only be dispatched by a saga.
+ * 
+ * Action creator to receive bit data.
+ * Dispatching this will unmark the current bits as loading,
+ * clear any errors, and store the bit data.
+ * @param {Array.<Object>} bits The bit data to store.
+ * @param {string} username The poster of the given bits.
+ * @param {number} curPage The current page of the given bits.
+ * @param {number} totalPages The total number of pages of bits.
+ * @returns {object} The created action.
+ */
 export function userBitsReceived(bits, username, curPage, totalPages) {
 	return {
 		type: 'USER_BITS_REQ_RECEIVED',
@@ -54,6 +118,13 @@ export function userBitsReceived(bits, username, curPage, totalPages) {
 	}
 }
 
+/**
+ * NOTE: This action should only be dispatched by a saga.
+ * 
+ * Action creator to signify something went wrong when fetching bit data. 
+ * @param {any} error An error message specifying what went wrong.
+ * @returns The created action.
+ */
 export function userBitsError(error) {
 	return {
 		type: 'USER_BITS_REQ_ERROR', error
