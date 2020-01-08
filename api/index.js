@@ -3,6 +3,11 @@ import fetch from 'isomorphic-unfetch'
 const API_ROOT = process.env.API_ROOT
 const CLIENT_NAME = process.env.CLIENT_NAME
 
+/**
+ * Get information about a user.
+ * @param {string} username The username of the user to look up.
+ * @returns A promise that resolves to an object, or rejects with status code.
+ */
 export const getUserInfo = username => {
 	const payload = {
 		method: 'POST',
@@ -20,6 +25,12 @@ export const getUserInfo = username => {
 	}).then(res => res.json()).then(json => json.result)
 }
 
+/**
+ * Get a user's bits.
+ * @param {string} username The username of the user to look up.
+ * @param {number} page The current page we want to get of a user's bits. If in doubt, choose 1.
+ * @returns A promise that resolves to an array of objects, or rejects with status code.
+ */
 export const getUserBits = (username, page) => {
 	const payload = {
 		method: 'POST',
@@ -30,6 +41,24 @@ export const getUserBits = (username, page) => {
 		body: JSON.stringify({ page })
 	}
 	return fetch(`${API_ROOT}/bit/u/${username}`, payload).then(res => {
+		if (res.status !== 200) {
+			throw new Error(res.status)
+		}
+		return res
+	}).then(res => res.json()).then(json => json.result)
+}
+
+/**
+ * Get information about a bit by ID.
+ * @param {string} bitID The ID of the bit to look up.
+ * @returns A promise that resolves to an object, or rejects with status code.
+ */
+export const getBitInfo = bitID => {
+	const payload = {
+		method: 'GET',
+		cache: 'no-cache'
+	}
+	return fetch(`${API_ROOT}/bit/${bitID}`, payload).then(res => {
 		if (res.status !== 200) {
 			throw new Error(res.status)
 		}
