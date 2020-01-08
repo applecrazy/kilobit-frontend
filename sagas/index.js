@@ -41,11 +41,30 @@ export function* watchGetUserBits() {
 	yield takeEvery('USER_BITS_GET', getUserBits)
 }
 
+export function* getBitReplies(action) {
+	const { bitID } = action
+	try {
+		yield put(actions.bitRepliesBegin())
+		const fullBitInfo = yield call(api.getBitInfo, bitID)
+		const replies = fullBitInfo.replies
+		const parentInfo = { ...fullBitInfo }
+		delete parentInfo.replies
+		yield put(actions.bitRepliesReceived(parentInfo, replies))
+	} catch (error) {
+		yield put(actions.bitRepliesError(error))
+	}
+}
+
+export function* watchGetBitReplies() {
+	yield takeEvery('BIT_REPLIES_GET', getBitReplies)
+}
+
 // root saga which will run in a separate thread
 export default function* rootSaga() {
 	// this function will execute these things concurrently
 	yield all([
 		watchGetProfile(),
-		watchGetUserBits()
+		watchGetUserBits(),
+		watchGetBitReplies()
 	])
 }

@@ -44,6 +44,12 @@ const initialState = {
 		username: null,
 		current: []
 	},
+	replies: {
+		loading: false,
+		parentBit: null,
+		children: [],
+		error: null
+	},
 	profile: {
 		current: null,
 		loading: false,
@@ -140,9 +146,41 @@ const bitsReducer = createReducer(initialState.bits, {
 	'USER_BITS_REQ_ERROR': userBitsError
 })
 
+function bitRepliesBegin(repliesState, action) {
+	return {
+		...repliesState,
+		loading: true
+	}
+}
+
+function bitRepliesReceived(repliesState, action) {
+	return {
+		...repliesState,
+		parentBit: action.parentBit,
+		children: action.children,
+		error: null,
+		loading: false
+	}
+}
+
+function bitRepliesError(repliesState, action) {
+	return {
+		...repliesState,
+		error: action.error,
+		loading: false
+	}
+}
+
+const repliesReducer = createReducer(initialState.replies, {
+	'BIT_REPLIES_REQ_BEGIN': bitRepliesBegin,
+	'BIT_REPLIES_REQ_RECEIVED': bitRepliesReceived,
+	'BIT_REPLIES_REQ_ERROR': bitRepliesError
+})
+
 const kilobitApp = combineReducers({
 	bits: bitsReducer,
 	profile: profileReducer,
+	replies: repliesReducer
 })
 
 // function requestBitInfo(state, action) {

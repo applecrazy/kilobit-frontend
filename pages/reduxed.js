@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 import { connect } from 'react-redux'
 // import { getUserInfo, getUserBits, getBitInfo, login } from '../actions'
-import { profileGet, userBitsGet } from '../actions'
+import { profileGet, userBitsGet, bitRepliesGet } from '../actions'
 
 import Layout from '../components/layout'
 
@@ -40,6 +40,23 @@ const Reduxed = props => {
 						<h5 className="subtitle">Result</h5>
 						<label className="label"><code>state.bits.current</code></label>
 						<textarea className="textarea" style={{ borderRadius: '3px', fontFamily: 'monospace' }} disabled value={JSON.stringify(props.bits.current)}></textarea>
+					</div>
+				</div>
+			</section>
+			<section className="section">
+				<h4 className="title is-4 has-text-centered">Getting Bit Replies</h4>
+				<div className="columns">
+					<div className="column is-3">
+						<h5 className="subtitle">Action</h5>
+						<button className={classNames('button', 'is-primary', { 'is-loading': props.replies.loading })} onClick={() => props.bitRepliesGet('5e0be1b89458d26947fe63dd')}>bitRepliesGet(...)</button>
+					</div>
+					<div className="column">
+						<h5 className="subtitle">Result</h5>
+						<label className="label"><code>state.replies.parentBit</code></label>
+						<textarea className="textarea" style={{ borderRadius: '3px', fontFamily: 'monospace' }} disabled value={JSON.stringify(props.replies.parentBit)}></textarea>
+						<hr />
+						<label className="label"><code>state.replies.children</code></label>
+						<textarea className="textarea" style={{ borderRadius: '3px', fontFamily: 'monospace' }} disabled value={JSON.stringify(props.replies.children)}></textarea>
 					</div>
 				</div>
 			</section>
@@ -130,11 +147,12 @@ const Reduxed = props => {
 // 	)
 // }
 
-const mapDispatchToProps = { profileGet, userBitsGet }
+const mapDispatchToProps = { profileGet, userBitsGet, bitRepliesGet }
 const mapStateToProps = state => {
 	return {
 		profile: state.profile,
-		bits: state.bits
+		bits: state.bits,
+		replies: state.replies
 	}
 }
 // 	return {
