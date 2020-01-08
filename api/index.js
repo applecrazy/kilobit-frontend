@@ -13,9 +13,9 @@ export const getUserInfo = username => {
 		method: 'POST',
 		cache: 'no-cache',
 		headers: {
-			'Content-Type': 'application/json'
+			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify({ username })
+		body: JSON.stringify({ username }),
 	}
 	return fetch(`${API_ROOT}/user/info`, payload).then(res => {
 		if (res.status !== 200) {
@@ -36,9 +36,9 @@ export const getUserBits = (username, page) => {
 		method: 'POST',
 		cache: 'no-cache',
 		headers: {
-			'Content-Type': 'application/json'
+			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify({ page })
+		body: JSON.stringify({ page }),
 	}
 	return fetch(`${API_ROOT}/bit/u/${username}`, payload).then(res => {
 		if (res.status !== 200) {
@@ -56,7 +56,7 @@ export const getUserBits = (username, page) => {
 export const getBitInfo = bitID => {
 	const payload = {
 		method: 'GET',
-		cache: 'no-cache'
+		cache: 'no-cache',
 	}
 	return fetch(`${API_ROOT}/bit/${bitID}`, payload).then(res => {
 		if (res.status !== 200) {

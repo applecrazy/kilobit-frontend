@@ -99,11 +99,11 @@ BitView.propTypes = {
 				username: PropTypes.string,
 				verified: PropTypes.bool,
 				numFollowers: PropTypes.number,
-				botUser: PropTypes.bool
+				botUser: PropTypes.bool,
 			}),
 			mentions: PropTypes.arrayOf(PropTypes.shape({
 				_id: PropTypes.string,
-				mentionText: PropTypes.string
+				mentionText: PropTypes.string,
 			})),
 			tags: PropTypes.arrayOf(PropTypes.string),
 			creationDate: PropTypes.string,
@@ -119,17 +119,17 @@ BitView.propTypes = {
 			username: PropTypes.string,
 			verified: PropTypes.bool,
 			numFollowers: PropTypes.number,
-			botUser: PropTypes.bool
+			botUser: PropTypes.bool,
 		}),
 		creationDate: PropTypes.string,
 		replyTo: PropTypes.string,
 		replyToUser: PropTypes.string,
 		mentions: PropTypes.arrayOf(PropTypes.shape({
 			_id: PropTypes.string,
-			mentionText: PropTypes.string
+			mentionText: PropTypes.string,
 		})),
 		tags: PropTypes.arrayOf(PropTypes.string),
-	})
+	}),
 }
 
 export default withRouter(BitView)

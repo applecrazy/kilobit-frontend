@@ -22,14 +22,14 @@ const LinkifyLink = props => (
 
 LinkifyLink.propTypes = {
 	href: PropTypes.string,
-	children: PropTypes.any
+	children: PropTypes.any,
 }
 
 const BitCard = props => (
 	<Link href={`/bit/${props.bitID}`}>
 		<div className="box" style={{
 			width: props.fixedWidth ? `${props.fixedWidth}px` : 'auto',
-			height: props.fixedHeight ? `${props.fixedHeight}px` : 'auto'
+			height: props.fixedHeight ? `${props.fixedHeight}px` : 'auto',
 		}}>
 			<Link href={`/u/${props.handle}`}>
 				<h4 className="title is-5 bit-header" style={{ marginBottom: '6px', cursor: 'pointer' }}>
@@ -44,13 +44,13 @@ const BitCard = props => (
 				<Linkify options={{
 					formatHref: {
 						hashtag: (val) => '/t/' + val.substr(1),
-						mention: (val) => '/u' + val
+						mention: (val) => '/u' + val,
 					},
 					validate: {
 						email: false,
-						url: props.verified
+						url: props.verified,
 					},
-					tagName: () => LinkifyLink
+					tagName: () => LinkifyLink,
 				}}>{props.text}</Linkify>
 			</p>
 			<p className="bit-date">
@@ -122,9 +122,9 @@ BitCard.propTypes = {
 	hideBottomStats: PropTypes.bool,
 	mentions: PropTypes.arrayOf(PropTypes.shape({
 		_id: PropTypes.string,
-		mentionText: PropTypes.string
+		mentionText: PropTypes.string,
 	})),
-	tags: PropTypes.arrayOf(PropTypes.string)
+	tags: PropTypes.arrayOf(PropTypes.string),
 }
 
 export default BitCard

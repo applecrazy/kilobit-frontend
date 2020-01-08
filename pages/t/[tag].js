@@ -10,7 +10,7 @@ class Tag extends Component {
 	constructor(props) { 
 		super(props)
 		this.state = {
-			loading: false
+			loading: false,
 		}
 	}
 	loadMore() { 
@@ -131,9 +131,9 @@ class Tag extends Component {
 Tag.propTypes = {
 	router: {
 		query: {
-			tag: PropTypes.string
-		}
-	}
+			tag: PropTypes.string,
+		},
+	},
 }
 
 export default withRouter(Tag)

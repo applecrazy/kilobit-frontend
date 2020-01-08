@@ -57,7 +57,7 @@ ProfileHeader.propTypes = {
 	displayName: PropTypes.string.isRequired,
 	verified: PropTypes.bool,
 	handle: PropTypes.string.isRequired,
-	numBits: PropTypes.number.isRequired
+	numBits: PropTypes.number.isRequired,
 }
 
 

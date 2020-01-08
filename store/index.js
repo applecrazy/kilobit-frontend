@@ -13,7 +13,7 @@ const makeStore = () => {
 		composeEnhancers(
 			applyMiddleware(
 				sagaMiddleware, // lets us dispatch() functions
-			)
+			),
 		),
 	)
 	sagaMiddleware.run(rootSaga)

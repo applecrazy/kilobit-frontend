@@ -65,6 +65,6 @@ export default function* rootSaga() {
 	yield all([
 		watchGetProfile(),
 		watchGetUserBits(),
-		watchGetBitReplies()
+		watchGetBitReplies(),
 	])
 }

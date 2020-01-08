@@ -22,7 +22,7 @@ class Profile extends Component {
 			totalPages: 1,
 			totalBits: 0,
 			error: false,
-			noBits: false
+			noBits: false,
 		}
 	}
 
@@ -57,7 +57,7 @@ class Profile extends Component {
 				bits: this.state.bits.concat(response.result.docs),
 				totalPages: response.result.totalPages,
 				page: response.result.page,
-				totalBits: response.result.totalDocs
+				totalBits: response.result.totalDocs,
 			})
 		}
 		this.setState({ loading: false })
@@ -97,7 +97,7 @@ class Profile extends Component {
 										date={bit.creationDate}
 										mentions={bit.mentions}
 										tags={bit.tags}
-									/>
+									/>,
 							)}
 							{this.state.bits.length === 0 && !this.state.noBits ? <h1 className="subtitle has-text-centered"><br />Loading bits...</h1> : null}
 							{this.state.noBits ? <h1 className="subtitle has-text-centered"><br />This user hasn&apos;t posted a Bit yet.</h1> : null}
@@ -140,7 +140,7 @@ Profile.propTypes = {
 		numFollowers: PropTypes.number,
 		username: PropTypes.string,
 		verified: PropTypes.bool,
-	})
+	}),
 }
 
 export default withRouter(Profile)

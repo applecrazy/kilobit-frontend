@@ -40,6 +40,10 @@ module.exports = {
             "error",
             "never"
         ],
+        "comma-dangle": [
+            "error",
+            "always-multiline"
+        ],
         "react/react-in-jsx-scope": "off"
     }
 };

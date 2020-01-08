@@ -10,7 +10,7 @@
 export function profileGet(username) {
 	return {
 		type: 'PROFILE_GET',
-		username
+		username,
 	}
 }
 
@@ -23,7 +23,7 @@ export function profileGet(username) {
  */
 export function profileBegin() {
 	return {
-		type: 'PROFILE_REQ_BEGIN'
+		type: 'PROFILE_REQ_BEGIN',
 	}
 }
 
@@ -39,7 +39,7 @@ export function profileBegin() {
 export function profileReceived(profile) {
 	return {
 		type: 'PROFILE_REQ_RECEIVED',
-		profile
+		profile,
 	}
 }
 
@@ -53,7 +53,7 @@ export function profileReceived(profile) {
 export function profileError(error) {
 	return {
 		type: 'PROFILE_REQ_ERROR',
-		error
+		error,
 	}
 }
 
@@ -67,7 +67,7 @@ export function profileError(error) {
 export function userBitsGet(username) {
 	return {
 		type: 'USER_BITS_GET',
-		username
+		username,
 	}
 }
 
@@ -80,7 +80,7 @@ export function userBitsGet(username) {
  */
 export function userBitsBegin() {
 	return {
-		type: 'USER_BITS_REQ_BEGIN'
+		type: 'USER_BITS_REQ_BEGIN',
 	}
 }
 
@@ -94,7 +94,7 @@ export function userBitsBegin() {
  */
 export function userBitsCancel() {
 	return {
-		type: 'USER_BITS_REQ_CANCEL'
+		type: 'USER_BITS_REQ_CANCEL',
 	}
 }
 
@@ -116,7 +116,7 @@ export function userBitsReceived(bits, username, curPage, totalPages) {
 		bits,
 		username,
 		curPage,
-		totalPages
+		totalPages,
 	}
 }
 
@@ -130,7 +130,7 @@ export function userBitsReceived(bits, username, curPage, totalPages) {
 export function userBitsError(error) {
 	return {
 		type: 'USER_BITS_REQ_ERROR',
-		error
+		error,
 	}
 }
 
@@ -144,7 +144,7 @@ export function userBitsError(error) {
 export function bitRepliesGet(bitID) {
 	return {
 		type: 'BIT_REPLIES_GET',
-		bitID
+		bitID,
 	}
 }
 
@@ -157,7 +157,7 @@ export function bitRepliesGet(bitID) {
  */
 export function bitRepliesBegin() {
 	return {
-		type: 'BIT_REPLIES_REQ_BEGIN'
+		type: 'BIT_REPLIES_REQ_BEGIN',
 	}
 }
 
@@ -175,7 +175,7 @@ export function bitRepliesReceived(parentBit, children) {
 	return {
 		type: 'BIT_REPLIES_REQ_RECEIVED',
 		parentBit,
-		children
+		children,
 	}
 }
 
@@ -190,7 +190,7 @@ export function bitRepliesReceived(parentBit, children) {
 export function bitRepliesError(error) {
 	return {
 		type: 'BIT_REPLIES_REQ_ERROR',
-		error
+		error,
 	}
 }
 

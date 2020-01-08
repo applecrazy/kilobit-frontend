@@ -31,7 +31,7 @@ const initialState = {
 		loading: false,
 		isAuth: initialToken !== null,
 		token: initialToken,
-		user: null
+		user: null,
 	},
 	bits: {
 		loading: false,
@@ -39,22 +39,22 @@ const initialState = {
 		type: 'USER', // types will include: 'USER', 'TAG' (for bittag lists)
 		page: {
 			current: 0,
-			total: 1
+			total: 1,
 		},
 		username: null,
-		current: []
+		current: [],
 	},
 	replies: {
 		loading: false,
 		parentBit: null,
 		children: [],
-		error: null
+		error: null,
 	},
 	profile: {
 		current: null,
 		loading: false,
-		error: null
-	}
+		error: null,
+	},
 }
 
 function createReducer(initialState, handlers) {
@@ -70,7 +70,7 @@ function createReducer(initialState, handlers) {
 function profileBegin(profileState, action) {
 	return {
 		...profileState,
-		loading: true
+		loading: true,
 	}
 }
 
@@ -79,7 +79,7 @@ function profileReceived(profileState, action) {
 		...profileState,
 		loading: false,
 		error: null,
-		current: action.profile
+		current: action.profile,
 	}
 }
 
@@ -88,14 +88,14 @@ function profileError(profileState, action) {
 		...profileState,
 		loading: false,
 		error: action.error,
-		current: null
+		current: null,
 	}
 }
 
 const profileReducer = createReducer(initialState.profile, {
 	'PROFILE_REQ_BEGIN': profileBegin,
 	'PROFILE_REQ_RECEIVED': profileReceived,
-	'PROFILE_REQ_ERROR': profileError
+	'PROFILE_REQ_ERROR': profileError,
 })
 
 
@@ -109,7 +109,7 @@ function userBitsBegin(bitsState, action) {
 function userBitsCancel(bitsState, action) {
 	return {
 		...bitsState,
-		loading: false
+		loading: false,
 	}
 }
 
@@ -127,8 +127,8 @@ function userBitsReceived(bitsState, action) {
 		current: initialBits.concat(action.bits),
 		page: {
 			current: action.curPage,
-			total: action.totalPages
-		}
+			total: action.totalPages,
+		},
 	}
 }
 
@@ -143,13 +143,13 @@ const bitsReducer = createReducer(initialState.bits, {
 	'USER_BITS_REQ_BEGIN': userBitsBegin,
 	'USER_BITS_REQ_RECEIVED': userBitsReceived,
 	'USER_BITS_REQ_CANCEL': userBitsCancel,
-	'USER_BITS_REQ_ERROR': userBitsError
+	'USER_BITS_REQ_ERROR': userBitsError,
 })
 
 function bitRepliesBegin(repliesState, action) {
 	return {
 		...repliesState,
-		loading: true
+		loading: true,
 	}
 }
 
@@ -159,7 +159,7 @@ function bitRepliesReceived(repliesState, action) {
 		parentBit: action.parentBit,
 		children: action.children,
 		error: null,
-		loading: false
+		loading: false,
 	}
 }
 
@@ -167,20 +167,20 @@ function bitRepliesError(repliesState, action) {
 	return {
 		...repliesState,
 		error: action.error,
-		loading: false
+		loading: false,
 	}
 }
 
 const repliesReducer = createReducer(initialState.replies, {
 	'BIT_REPLIES_REQ_BEGIN': bitRepliesBegin,
 	'BIT_REPLIES_REQ_RECEIVED': bitRepliesReceived,
-	'BIT_REPLIES_REQ_ERROR': bitRepliesError
+	'BIT_REPLIES_REQ_ERROR': bitRepliesError,
 })
 
 const kilobitApp = combineReducers({
 	bits: bitsReducer,
 	profile: profileReducer,
-	replies: repliesReducer
+	replies: repliesReducer,
 })
 
 // function requestBitInfo(state, action) {
