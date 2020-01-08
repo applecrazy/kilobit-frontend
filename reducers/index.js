@@ -40,6 +40,7 @@ const initialState = {
 			current: 0,
 			total: 1
 		},
+		username: null,
 		current: []
 	},
 	profile: {
@@ -60,7 +61,10 @@ function createReducer(initialState, handlers) {
 }
 
 function profileBegin(profileState, action) {
-	return { ...profileState, loading: true }
+	return {
+		...profileState,
+		loading: true
+	}
 }
 
 function profileReceived(profileState, action) {
@@ -87,8 +91,50 @@ const profileReducer = createReducer(initialState.profile, {
 	'PROFILE_REQ_ERROR': profileError
 })
 
+
+function userBitsBegin(bitsState, action) {
+	return {
+		...bitsState,
+		loading: true,
+	}
+}
+
+function userBitsCancel(bitsState, action) {
+	return {
+		...bitsState,
+		loading: false
+	}
+}
+
+function userBitsReceived(bitsState, action) {
+	var initialBits = bitsState.current
+	if (action.username !== bitsState.username) {
+		initialBits = []
+	}
+	return {
+		...bitsState,
+		loading: false,
+		error: null,
+		type: 'USER',
+		username: action.username,
+		current: initialBits.concat(action.bits),
+		page: {
+			current: action.curPage,
+			total: action.totalPages
+		}
+	}
+}
+
+const bitsReducer = createReducer(initialState.bits, {
+	'USER_BITS_REQ_BEGIN': userBitsBegin,
+	'USER_BITS_REQ_RECEIVED': userBitsReceived,
+	'USER_BITS_REQ_CANCEL': userBitsCancel
+	// 'PROFILE_REQ_ERROR': profileError
+})
+
 const kilobitApp = combineReducers({
-	profile: profileReducer
+	profile: profileReducer,
+	bits: bitsReducer
 })
 
 // const profileReducer = createReducer(newInitialState.profile, {

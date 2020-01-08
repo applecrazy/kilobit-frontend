@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 import { connect } from 'react-redux'
 // import { getUserInfo, getUserBits, getBitInfo, login } from '../actions'
-import { profileGet } from '../actions'
+import { profileGet, userBitsGet } from '../actions'
 
 import Layout from '../components/layout'
 
@@ -20,12 +20,26 @@ const Reduxed = props => {
 				<div className="columns">
 					<div className="column is-3">
 						<h5 className="subtitle">Action</h5>
-						<button className={classNames('button', 'is-primary', { 'is-loading': props.profile.loading })} onClick={() => props.profileGet('zuck')}>profileGet()</button>
+						<button className={classNames('button', 'is-primary', { 'is-loading': props.profile.loading })} onClick={() => props.profileGet('zuck')}>profileGet('zuck')</button>
 					</div>
 					<div className="column">
 						<h5 className="subtitle">Result</h5>
 						<label className="label"><code>state.profile.current</code></label>
 						<textarea className="textarea" style={{ borderRadius: '3px', fontFamily: 'monospace' }} disabled value={JSON.stringify(props.profile.current)}></textarea>
+					</div>
+				</div>
+			</section>
+			<section className="section">
+				<h4 className="title is-4 has-text-centered">Getting User Bits</h4>
+				<div className="columns">
+					<div className="column is-3">
+						<h5 className="subtitle">Action</h5>
+						<button className={classNames('button', 'is-primary', { 'is-loading': props.bits.loading })} onClick={() => props.userBitsGet('zuck')}>userBitsGet('zuck')</button>
+					</div>
+					<div className="column">
+						<h5 className="subtitle">Result</h5>
+						<label className="label"><code>state.bits.current</code></label>
+						<textarea className="textarea" style={{ borderRadius: '3px', fontFamily: 'monospace' }} disabled value={JSON.stringify(props.bits.current)}></textarea>
 					</div>
 				</div>
 			</section>
@@ -116,10 +130,11 @@ const Reduxed = props => {
 // 	)
 // }
 
-const mapDispatchToProps = { profileGet }
+const mapDispatchToProps = { profileGet, userBitsGet }
 const mapStateToProps = state => {
 	return {
-		profile: state.profile
+		profile: state.profile,
+		bits: state.bits
 	}
 }
 // 	return {

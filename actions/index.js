@@ -34,19 +34,29 @@ export function userBitsGet(username) {
 
 export function userBitsBegin() {
 	return {
-		type: 'USER_BITS_BEGIN'
+		type: 'USER_BITS_REQ_BEGIN'
 	}
 }
 
-export function userBitsReceived() {
+export function userBitsCancel() {
 	return {
-		type: 'USER_BITS_RECEIVED'
+		type: 'USER_BITS_REQ_CANCEL'
+	}
+}
+
+export function userBitsReceived(bits, username, curPage, totalPages) {
+	return {
+		type: 'USER_BITS_REQ_RECEIVED',
+		bits,
+		username,
+		curPage,
+		totalPages
 	}
 }
 
 export function userBitsError(error) {
 	return {
-		type: 'USER_BITS_ERROR', error
+		type: 'USER_BITS_REQ_ERROR', error
 	}
 }
 
