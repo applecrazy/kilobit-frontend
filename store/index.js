@@ -6,17 +6,23 @@ import rootSaga from '../sagas'
 import rootReducer from '../reducers'
 
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose
-const makeStore = () => {
+const makeStore = (preloadedState, { isServer, req = null }) => {
 	const sagaMiddleware = createSagaMiddleware()
 	const store = createStore(
 		rootReducer,
+		preloadedState,
 		composeEnhancers(
 			applyMiddleware(
-				sagaMiddleware, // lets us dispatch() functions
+				sagaMiddleware,
 			),
 		),
 	)
-	sagaMiddleware.run(rootSaga)
+
+	// next-redux-saga stuff
+	if (req || !isServer) {
+		store.sagaTask = sagaMiddleware.run(rootSaga)
+	}
+	
 	return store
 }
 

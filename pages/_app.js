@@ -6,6 +6,7 @@ import Head from 'next/head'
 import { Provider } from 'react-redux'
 import makeStore from '../store'
 import withRedux from 'next-redux-wrapper'
+import withReduxSaga from 'next-redux-saga'
 
 import NProgress from 'nprogress'
 
@@ -46,4 +47,4 @@ class KilobitApp extends App {
 	}
 }
 
-export default withRedux(makeStore)(KilobitApp)
+export default withRedux(makeStore)(withReduxSaga(KilobitApp))
