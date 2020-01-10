@@ -1,94 +1,71 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'next/router'
 import Error from 'next/error'
 
-import NProgress from 'nprogress'
 import BottomScrollListener from 'react-bottom-scroll-listener'
 
 import BitCard from '../../components/bit-card'
 import ProfileHeader from '../../components/profile-header'
 import Layout from '../../components/layout'
 
-import controller from '../../controller'
+import { connect } from 'react-redux'
+import { userBitsGet, profileGet } from '../../actions'
 
 class Profile extends Component {
 	constructor(props) {
 		super(props)
-		this.state = {
-			loading: false,
-			bits: [],
-			page: 0,
-			totalPages: 1,
-			totalBits: 0,
-			error: false,
-			noBits: false,
-		}
 	}
 
-	static async getInitialProps({ query }) {
+	static async getInitialProps(props) {
+		const { store, query, isServer } = props
 		const username = query.profile
-		const userData = await controller.getUserInfo(username)
-		return userData
+		store.dispatch(userBitsGet(username))
+		store.dispatch(profileGet(username))
+		return { username, isServer }
 	}
 
 	async componentDidMount() {
-		await this.loadMore()
+		// TODO: run only if rendered on client
+		const { username, userBitsGet, profileGet, isServer } = this.props
+		if (!isServer) {
+			userBitsGet(username)
+			profileGet(username)
+		}
 	}
 
-	async loadMore() {
-		const { username } = this.props
-		this.setState({ loading: true })
-		NProgress.start()
-		if (this.state.page + 1 > this.state.totalPages) {
-			this.setState({ loading: false })
-			NProgress.done()
-			return
-		}
-		const response = await controller.loadUserBits(username, this.state.page + 1)
-		if (response.status !== 200) {
-			if (this.state.page === 0) {
-				this.setState({ noBits: true, totalPages: 0 })
-			} else {
-				this.setState({ error: true })
-			}
-		} else {
-			this.setState({
-				bits: this.state.bits.concat(response.result.docs),
-				totalPages: response.result.totalPages,
-				page: response.result.page,
-				totalBits: response.result.totalDocs,
-			})
-		}
-		this.setState({ loading: false })
-		NProgress.done()
+	loadMore() {
+		const { username, userBitsGet } = this.props
+		userBitsGet(username)
 	}
+
 	render() {
-		if (!this.props.username) {
+		const { username, error, current: currentBits, loading: loadingBits, total: totalBits, page: bitPage } = this.props.bits
+		const { current: curProfile, loading: loadingProfile } = this.props.profile
+		if (!username) {
 			return null
 		}
-		if (this.props.status === 404) {
+		if (!true /* handle user not existing here */) {
 			return <Error statusCode={404} />
 		}
 		return (
-			<Layout withIcons withNavbar title={`@${this.props.username}`}>
-				<BottomScrollListener onBottom={async () => this.loadMore()} />
+			<Layout withIcons withNavbar title={`@${username}`}>
+				<BottomScrollListener onBottom={() => this.loadMore()} />
 				<ProfileHeader
-					displayName={this.props.userInfo.displayName}
-					handle={this.props.username}
-					numBits={this.state.totalBits}
-					verified={this.props.userInfo.verified}
+					displayName={curProfile.displayName}
+					handle={username}
+					numBits={totalBits}
+					verified={curProfile.verified}
 				/>
 				<section className="section" style={{ paddingTop: '2rem' }}>
 					<div className="columns">
 						<div className="column is-hidden-mobile"></div>
 						<div className="column is-6-fullhd is-8-tablet bit-list">
-							{this.state.bits.map(
+							{currentBits.map(
 								bit =>
 									<BitCard
-										displayName={this.props.userInfo.displayName}
+										displayName={curProfile.displayName}
 										handle={this.props.username}
-										verified={this.props.userInfo.verified}
+										verified={curProfile.verified}
 										text={bit.text}
 										key={bit._id}
 										bitID={bit._id}
@@ -99,16 +76,16 @@ class Profile extends Component {
 										tags={bit.tags}
 									/>,
 							)}
-							{this.state.bits.length === 0 && !this.state.noBits ? <h1 className="subtitle has-text-centered"><br />Loading bits...</h1> : null}
-							{this.state.noBits ? <h1 className="subtitle has-text-centered"><br />This user hasn&apos;t posted a Bit yet.</h1> : null}
+							{loadingBits ? <h1 className="subtitle has-text-centered"><br />Loading bits...</h1> : null}
+							{currentBits.length === 0 ? <h1 className="subtitle has-text-centered"><br />This user hasn&apos;t posted a Bit yet.</h1> : null}
 						</div>
 						<div className="column is-hidden-mobile"></div>
 					</div>
 				</section>
 				{
-					this.state.page < this.state.totalPages ?
+					bitPage.current < bitPage.total ?
 						<section className="section has-text-centered">
-							<a onClick={this.loadMore.bind(this)}><strong>{this.state.loading ? 'Loading...' : 'Load more...'}</strong></a>
+							<a onClick={this.loadMore.bind(this)}><strong>{loadingBits ? 'Loading...' : 'Load more...'}</strong></a>
 						</section>
 						: null
 				}
@@ -133,7 +110,21 @@ class Profile extends Component {
 
 Profile.propTypes = {
 	username: PropTypes.string.isRequired,
-	status: PropTypes.number,
+	isServer: PropTypes.bool.isRequired,
+	userBitsGet: PropTypes.func.isRequired,
+	profileGet: PropTypes.func.isRequired,
+	bits: PropTypes.shape({
+		loading: PropTypes.bool.isRequired,
+		error: PropTypes.any,
+		type: PropTypes.string,
+		page: PropTypes.shape({
+			current: PropTypes.number.isRequired,
+			total: PropTypes.number.isRequired,
+		}).isRequired,
+		username: PropTypes.string,
+		current: PropTypes.array.isRequired,
+		total: PropTypes.number.isRequired,
+	}).isRequired,
 	userInfo: PropTypes.shape({
 		botUser: PropTypes.bool,
 		displayName: PropTypes.string,
@@ -143,4 +134,12 @@ Profile.propTypes = {
 	}),
 }
 
-export default withRouter(Profile)
+const mapDispatchToProps = { userBitsGet, profileGet }
+const mapStateToProps = state => {
+	return {
+		bits: state.bits,
+		profile: state.profile,
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)
