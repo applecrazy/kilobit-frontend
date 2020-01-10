@@ -108,15 +108,17 @@ export function userBitsCancel() {
  * @param {string} username The poster of the given bits.
  * @param {number} curPage The current page of the given bits.
  * @param {number} totalPages The total number of pages of bits.
+ * @param {number} totalBits The total number of bits.
  * @returns {object} The created action.
  */
-export function userBitsReceived(bits, username, curPage, totalPages) {
+export function userBitsReceived(bits, username, curPage, totalPages, totalBits) {
 	return {
 		type: 'USER_BITS_REQ_RECEIVED',
 		bits,
 		username,
 		curPage,
 		totalPages,
+		totalBits,
 	}
 }
 

@@ -43,6 +43,7 @@ const initialState = {
 		},
 		username: null,
 		current: [],
+		total: 0,
 	},
 	replies: {
 		loading: false,
@@ -129,6 +130,7 @@ function userBitsReceived(bitsState, action) {
 			current: action.curPage,
 			total: action.totalPages,
 		},
+		total: action.totalBits,
 	}
 }
 
