@@ -25,7 +25,6 @@ class Profile extends Component {
 	}
 
 	async componentDidMount() {
-		// TODO: run only if rendered on client
 		const { username, userBitsGet, profileGet, isServer } = this.props
 		if (!isServer) {
 			userBitsGet(username)
@@ -39,20 +38,15 @@ class Profile extends Component {
 	}
 
 	render() {
-		const { username, error, current: currentBits, loading: loadingBits, total: totalBits, page: bitPage } = this.props.bits
-		const { current: curProfile, loading: loadingProfile } = this.props.profile
-		if (!username) {
-			return null
-		}
-		if (!true /* handle user not existing here */) {
-			return <Error statusCode={404} />
-		}
+		const { error: bitError, current: currentBits, loading: loadingBits, total: totalBits, page: bitPage } = this.props.bits
+		const { current: curProfile } = this.props.profile
+		if (!curProfile) return <Error statusCode={404} />
 		return (
-			<Layout withIcons withNavbar title={`@${username}`}>
+			<Layout withIcons withNavbar title={`@${curProfile.username}`}>
 				<BottomScrollListener onBottom={() => this.loadMore()} />
 				<ProfileHeader
 					displayName={curProfile.displayName}
-					handle={username}
+					handle={curProfile.username}
 					numBits={totalBits}
 					verified={curProfile.verified}
 				/>
@@ -83,7 +77,7 @@ class Profile extends Component {
 					</div>
 				</section>
 				{
-					bitPage.current < bitPage.total ?
+					((bitPage.current < bitPage.total) && totalBits !== 0) ?
 						<section className="section has-text-centered">
 							<a onClick={this.loadMore.bind(this)}><strong>{loadingBits ? 'Loading...' : 'Load more...'}</strong></a>
 						</section>

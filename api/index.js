@@ -40,12 +40,9 @@ export const getUserBits = (username, page) => {
 		},
 		body: JSON.stringify({ page }),
 	}
-	return fetch(`${API_ROOT}/bit/u/${username}`, payload).then(res => {
-		if (res.status !== 200) {
-			throw new Error(res.status)
-		}
-		return res
-	}).then(res => res.json()).then(json => json.result)
+	return fetch(`${API_ROOT}/bit/u/${username}`, payload)
+		.then(res => res.json())
+		.catch(err => { return { status: err.message, result: null } })
 }
 
 /**

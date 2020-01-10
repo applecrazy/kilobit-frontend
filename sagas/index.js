@@ -31,7 +31,12 @@ export function* getUserBits(action) {
 			return
 		}
 		const bitData = yield call(api.getUserBits, username, nextPage)
-		yield put(actions.userBitsReceived(bitData.docs, bitData.username, bitData.page, bitData.totalPages, bitData.totalDocs))
+		if (bitData.status !== 200) {
+			yield put(actions.userBitsError(bitData.status))
+			return
+		}
+		const { result } = bitData
+		yield put(actions.userBitsReceived(result.docs, result.username, result.page, result.totalPages, result.totalDocs))
 	} catch (error) {
 		yield put(actions.userBitsError(error))
 	}
