@@ -125,12 +125,16 @@ Profile.propTypes = {
 		current: PropTypes.array.isRequired,
 		total: PropTypes.number.isRequired,
 	}).isRequired,
-	userInfo: PropTypes.shape({
-		botUser: PropTypes.bool,
-		displayName: PropTypes.string,
-		numFollowers: PropTypes.number,
-		username: PropTypes.string,
-		verified: PropTypes.bool,
+	profile: PropTypes.shape({
+		current: PropTypes.shape({
+			botUser: PropTypes.bool,
+			displayName: PropTypes.string,
+			numFollowers: PropTypes.number,
+			username: PropTypes.string,
+			verified: PropTypes.bool,
+		}),
+		loading: PropTypes.bool.isRequired,
+		error: PropTypes.any,
 	}),
 }
 
