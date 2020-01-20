@@ -9,7 +9,12 @@ export function* getProfile(action) {
 	const { username } = action
 	try {
 		yield put(actions.profileBegin())
-		const profile = yield call(api.getUserInfo, username)
+		const profileData = yield call(api.getUserInfo, username)
+		if (profileData.status !== 200) {
+			yield put(actions.profileError(profileData.status))
+			return
+		}
+		const { result: profile } = profileData
 		yield put(actions.profileReceived(profile))
 	} catch (error) {
 		yield put(actions.profileError(error))

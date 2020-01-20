@@ -17,19 +17,16 @@ export const getUserInfo = username => {
 		},
 		body: JSON.stringify({ username }),
 	}
-	return fetch(`${API_ROOT}/user/info`, payload).then(res => {
-		if (res.status !== 200) {
-			throw new Error(res.status)
-		}
-		return res
-	}).then(res => res.json()).then(json => json.result)
+	return fetch(`${API_ROOT}/user/info`, payload)
+		.then(res => res.json())
+		.catch(err => { return { status: err.message, result: null } })
 }
 
 /**
  * Get a user's bits.
  * @param {string} username The username of the user to look up.
  * @param {number} page The current page we want to get of a user's bits. If in doubt, choose 1.
- * @returns A promise that resolves to an array of objects, or rejects with status code.
+ * @returns A promise that resolves to an object of the form {status: ..., result: ...}
  */
 export const getUserBits = (username, page) => {
 	const payload = {

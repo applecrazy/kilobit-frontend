@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Error from 'next/error'
+import Error from '../_error'
 
 import BottomScrollListener from 'react-bottom-scroll-listener'
 
@@ -39,8 +39,8 @@ class Profile extends Component {
 
 	render() {
 		const { error: bitError, current: currentBits, loading: loadingBits, total: totalBits, page: bitPage } = this.props.bits
-		const { current: curProfile } = this.props.profile
-		if (!curProfile) return <Error statusCode={404} />
+		const { error: profileError, current: curProfile } = this.props.profile
+		if (profileError) return <Error statusCode={profileError} />
 		return (
 			<Layout withIcons withNavbar title={`@${curProfile.username}`}>
 				<BottomScrollListener onBottom={() => this.loadMore()} />
@@ -71,7 +71,8 @@ class Profile extends Component {
 									/>,
 							)}
 							{loadingBits ? <h1 className="subtitle has-text-centered"><br />Loading bits...</h1> : null}
-							{currentBits.length === 0 ? <h1 className="subtitle has-text-centered"><br />This user hasn&apos;t posted a Bit yet.</h1> : null}
+							{bitError === 404 ? <h1 className="subtitle has-text-centered"><br />This user hasn&apos;t posted a Bit yet.</h1> : null}
+							{bitError !== 200 && bitError !== 404 ? <h1 className="subtitle has-text-centered"><br />Something went wrong loading this user&apos;s Bits.</h1> : null}
 						</div>
 						<div className="column is-hidden-mobile"></div>
 					</div>
