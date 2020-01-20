@@ -55,9 +55,13 @@ export function* getBitReplies(action) {
 	const { bitID } = action
 	try {
 		yield put(actions.bitRepliesBegin())
-		const fullBitInfo = yield call(api.getBitInfo, bitID)
-		const replies = fullBitInfo.replies
-		const parentInfo = { ...fullBitInfo }
+		const {result: bitInfo, status} = yield call(api.getBitInfo, bitID)
+		if (status !== 200) {
+			yield put(actions.bitRepliesError(status))
+			return
+		} 
+		const replies = bitInfo.replies || []
+		const parentInfo = { ...bitInfo }
 		delete parentInfo.replies
 		yield put(actions.bitRepliesReceived(parentInfo, replies))
 	} catch (error) {

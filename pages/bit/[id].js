@@ -1,47 +1,59 @@
 import React, { Component } from 'react'
+import Error from '../_error'
 import PropTypes from 'prop-types'
-import { withRouter } from 'next/router'
 
 import Layout from '../../components/layout'
 import BitCard from '../../components/bit-card'
 
-import controller from '../../controller'
+import { connect } from 'react-redux'
+import { bitRepliesGet } from '../../actions'
 
 class BitView extends Component {
-	static async getInitialProps({ query }) {
+	static async getInitialProps(props) {
+		const { store, query, isServer } = props
 		const { id: bitID } = query
-		const bitDetails = await controller.getBitInfo(bitID)
-		return bitDetails
+		store.dispatch(bitRepliesGet(bitID))
+		return { bitID, isServer }
+	}
+
+	async componentDidMount() {
+		const { bitID, bitRepliesGet, isServer } = this.props
+		if (!isServer) {
+			bitRepliesGet(bitID)
+		}
 	}
 	render() {
-		const { bitInfo } = this.props
+		// console.log(this.props)
+		const { replies: data } = this.props
+		const { parentBit, error, children: replies } = data
+		if (error) return <Error statusCode={error} />
 		return (
 			<Layout withNavbar withIcons>
 				<div className="columns">
 					<div className="column"></div>
 					<div className="column is-6">
 						<BitCard
-							displayName={bitInfo.user.displayName}
-							handle={bitInfo.user.username}
-							text={bitInfo.text}
-							date={bitInfo.creationDate}
-							numHearts={bitInfo.likeCount}
-							numReplies={bitInfo.replyCount}
-							bitID={bitInfo._id}
-							verified={bitInfo.user.verified}
-							mentions={bitInfo.mentions}
-							tags={bitInfo.tags}
+							displayName={parentBit.user.displayName}
+							handle={parentBit.user.username}
+							text={parentBit.text}
+							date={parentBit.creationDate}
+							numHearts={parentBit.likeCount}
+							numReplies={parentBit.replyCount}
+							bitID={parentBit._id}
+							verified={parentBit.user.verified}
+							mentions={parentBit.mentions}
+							tags={parentBit.tags}
 							hideBottomStats
 						/>
 						<div className="columns is-mobile stats-big">
 							<div className="column has-text-centered">
-								<h3 className="subtitle">{bitInfo.replyCount} {bitInfo.replyCount === 1 ? 'reply' : 'replies'}</h3>
+								<h3 className="subtitle">{parentBit.replyCount} {parentBit.replyCount === 1 ? 'reply' : 'replies'}</h3>
 							</div>
 							<div className="column has-text-centered">
-								<h3 className="subtitle">{bitInfo.likeCount} {bitInfo.likeCount === 1 ? 'like' : 'likes'}</h3>
+								<h3 className="subtitle">{parentBit.likeCount} {parentBit.likeCount === 1 ? 'like' : 'likes'}</h3>
 							</div>
 						</div>
-						{bitInfo.replies.map(reply => (
+						{replies.map(reply => (
 							<BitCard
 								displayName={reply.user.displayName}
 								handle={reply.user.username}
@@ -132,4 +144,11 @@ BitView.propTypes = {
 	}),
 }
 
-export default withRouter(BitView)
+const mapDispatchToProps = { bitRepliesGet }
+const mapStateToProps = state => {
+	return {
+		replies: state.replies,
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BitView)

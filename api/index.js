@@ -52,10 +52,7 @@ export const getBitInfo = bitID => {
 		method: 'GET',
 		cache: 'no-cache',
 	}
-	return fetch(`${API_ROOT}/bit/${bitID}`, payload).then(res => {
-		if (res.status !== 200) {
-			throw new Error(res.status)
-		}
-		return res
-	}).then(res => res.json()).then(json => json.result)
+	return fetch(`${API_ROOT}/bit/${bitID}`, payload)
+		.then(res => res.json())
+		.catch(err => { return { status: err.message, result: null } })
 }
