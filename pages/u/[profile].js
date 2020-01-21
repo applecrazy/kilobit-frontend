@@ -12,10 +12,6 @@ import { connect } from 'react-redux'
 import { userBitsGet, profileGet } from '../../actions'
 
 class Profile extends Component {
-	constructor(props) {
-		super(props)
-	}
-
 	static async getInitialProps(props) {
 		const { store, query, isServer } = props
 		const username = query.profile
