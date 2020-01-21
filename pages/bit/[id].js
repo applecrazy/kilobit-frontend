@@ -23,9 +23,8 @@ class BitView extends Component {
 		}
 	}
 	render() {
-		// console.log(this.props)
 		const { replies: data } = this.props
-		const { parentBit, error, children: replies } = data
+		const { parentBit, error, children } = data
 		if (error) return <Error statusCode={error} />
 		return (
 			<Layout withNavbar withIcons>
@@ -53,7 +52,7 @@ class BitView extends Component {
 								<h3 className="subtitle">{parentBit.likeCount} {parentBit.likeCount === 1 ? 'like' : 'likes'}</h3>
 							</div>
 						</div>
-						{replies.map(reply => (
+						{children.map(reply => (
 							<BitCard
 								displayName={reply.user.displayName}
 								handle={reply.user.username}
