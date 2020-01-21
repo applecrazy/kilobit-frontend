@@ -95,52 +95,13 @@ class BitView extends Component {
 }
 
 BitView.propTypes = {
-	bitInfo: PropTypes.shape({
-		isReply: PropTypes.bool,
-		replyCount: PropTypes.number,
-		replies: PropTypes.arrayOf(PropTypes.shape({
-			isReply: PropTypes.bool,
-			replyCount: PropTypes.number,
-			replies: PropTypes.arrayOf(PropTypes.string),
-			likeCount: PropTypes.number,
-			likes: PropTypes.arrayOf(PropTypes.string),
-			'_id': PropTypes.string,
-			text: PropTypes.string,
-			user: PropTypes.shape({
-				displayName: PropTypes.string,
-				username: PropTypes.string,
-				verified: PropTypes.bool,
-				numFollowers: PropTypes.number,
-				botUser: PropTypes.bool,
-			}),
-			mentions: PropTypes.arrayOf(PropTypes.shape({
-				_id: PropTypes.string,
-				mentionText: PropTypes.string,
-			})),
-			tags: PropTypes.arrayOf(PropTypes.string),
-			creationDate: PropTypes.string,
-			replyTo: PropTypes.string,
-			replyToUser: PropTypes.string,
-		})),
-		likeCount: PropTypes.number,
-		likes: PropTypes.arrayOf(PropTypes.string),
-		'_id': PropTypes.string,
-		text: PropTypes.string,
-		user: PropTypes.shape({
-			displayName: PropTypes.string,
-			username: PropTypes.string,
-			verified: PropTypes.bool,
-			numFollowers: PropTypes.number,
-			botUser: PropTypes.bool,
-		}),
-		creationDate: PropTypes.string,
-		replyTo: PropTypes.string,
-		replyToUser: PropTypes.string,
-		mentions: PropTypes.arrayOf(PropTypes.shape({
-			_id: PropTypes.string,
-			mentionText: PropTypes.string,
-		})),
-		tags: PropTypes.arrayOf(PropTypes.string),
+	bitID: PropTypes.string,
+	bitRepliesGet: PropTypes.func,
+	isServer: PropTypes.bool.isRequired,
+	replies: PropTypes.shape({
+		parentBit: PropTypes.object.isRequired,
+		error: PropTypes.any,
+		children: PropTypes.arrayOf(PropTypes.object),
 	}),
 }
 
