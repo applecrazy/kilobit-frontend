@@ -25,8 +25,6 @@ const initialToken = typeof localStorage !== 'undefined' ? localStorage.getItem(
 // }
 
 const initialState = {
-	error: null,
-	status: 200,
 	auth: {
 		loading: false,
 		isAuth: initialToken !== null,
@@ -179,69 +177,43 @@ const repliesReducer = createReducer(initialState.replies, {
 	'BIT_REPLIES_REQ_ERROR': bitRepliesError,
 })
 
+function authTokenBegin(authState, action) {
+	return {
+		...authState,
+		loading: true,
+	}
+}
+
+function authTokenReceived(authState, action) {
+	return {
+		...authState,
+		loading: false,
+		error: null,
+		isAuth: true,
+		token: action.token,
+		user: action.userInfo,
+	}
+}
+
+function authTokenError(authState, action) {
+	return {
+		...authState,
+		error: action.error,
+		loading: false,
+	}
+}
+
+const authReducer = createReducer(initialState.auth, {
+	'AUTH_TOKEN_REQ_BEGIN': authTokenBegin,
+	'AUTH_TOKEN_REQ_RECEIVED': authTokenReceived,
+	'AUTH_TOKEN_REQ_ERROR': authTokenError,
+})
+
 const kilobitApp = combineReducers({
+	auth: authReducer,
 	bits: bitsReducer,
 	profile: profileReducer,
 	replies: repliesReducer,
 })
-
-// function requestBitInfo(state, action) {
-// 	return { ...state, loadingBitInfo: true }
-// }
-
-// function rejectBitInfo(state, action) {
-// 	return { ...state, loadingBitInfo: false }
-// }
-
-// function receiveBitInfo(state, action) {
-// 	return { ...state, loadingBitInfo: false, status: 200, error: null, curBitInfo: action.info }
-// }
-
-// function requestLoginToken(state, action) {
-// 	return { ...state, loadingAuth: true }
-// }
-
-// function rejectLoginToken(state, action) {
-// 	return { ...state, loadingAuth: false }
-// }
-
-// function receiveLoginToken(state, action) {
-// 	return { ...state, loadingAuth: false, isLoggedIn: true, status: 200, error: null, authToken: action.token }
-// }
-
-// function kilobitApp(state = initialState, action) {
-// 	switch (action.type) {
-// 		case PROCESS_ERROR:
-// 			return processError(state, action)
-// 		case CLEAR_ERROR:
-// 			return clearError(state, action)
-// 		case REQUEST_USER_INFO:
-// 			return requestUserInfo(state, action)
-// 		case REJECT_USER_INFO:
-// 			return rejectUserInfo(state, action)
-// 		case RECEIVE_USER_INFO:
-// 			return receiveUserInfo(state, action)
-// 		case REQUEST_USER_BITS:
-// 			return requestUserBits(state, action)
-// 		case REJECT_USER_BITS:
-// 			return rejectUserBits(state, action)
-// 		case RECEIVE_USER_BITS:
-// 			return receiveUserBits(state, action)
-// 		case REQUEST_BIT_INFO:
-// 			return requestBitInfo(state, action)
-// 		case REJECT_BIT_INFO:
-// 			return rejectBitInfo(state, action)
-// 		case RECEIVE_BIT_INFO:
-// 			return receiveBitInfo(state, action)
-// 		case REQUEST_LOGIN_TOKEN:
-// 			return requestLoginToken(state, action)
-// 		case REJECT_LOGIN_TOKEN:
-// 			return rejectLoginToken(state, action)
-// 		case RECEIVE_LOGIN_TOKEN:
-// 			return receiveLoginToken(state, action)
-// 		default:
-// 			return state
-// 	}
-// }
 
 export default kilobitApp

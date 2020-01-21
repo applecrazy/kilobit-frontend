@@ -55,11 +55,11 @@ export function* getBitReplies(action) {
 	const { bitID } = action
 	try {
 		yield put(actions.bitRepliesBegin())
-		const {result: bitInfo, status} = yield call(api.getBitInfo, bitID)
+		const { result: bitInfo, status } = yield call(api.getBitInfo, bitID)
 		if (status !== 200) {
 			yield put(actions.bitRepliesError(status))
 			return
-		} 
+		}
 		const replies = bitInfo.replies || []
 		const parentInfo = { ...bitInfo }
 		delete parentInfo.replies
@@ -73,6 +73,25 @@ export function* watchGetBitReplies() {
 	yield takeEvery('BIT_REPLIES_GET', getBitReplies)
 }
 
+export function* getAuthToken(action) {
+	const { username, password } = action
+	try {
+		yield put(actions.authTokenBegin())
+		const { token, status, result: profile } = yield call(api.login, username, password)
+		if (status !== 200) {
+			yield put(actions.authTokenError(status))
+			return
+		}
+		yield put(actions.authTokenReceived(profile, token))
+	} catch (error) {
+		yield put(actions.bitRepliesError(error))
+	}
+}
+
+export function* watchGetAuthToken() {
+	yield takeEvery('AUTH_TOKEN_GET', getAuthToken)
+}
+
 // root saga which will run in a separate thread
 export default function* rootSaga() {
 	// this function will execute these things concurrently
@@ -80,5 +99,6 @@ export default function* rootSaga() {
 		watchGetProfile(),
 		watchGetUserBits(),
 		watchGetBitReplies(),
+		watchGetAuthToken(),
 	])
 }

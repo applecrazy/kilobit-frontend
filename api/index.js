@@ -56,3 +56,28 @@ export const getBitInfo = bitID => {
 		.then(res => res.json())
 		.catch(err => { return { status: err.message, result: null } })
 }
+
+/**
+ * Log in using the given username and password. Provides a JWT to make requests as the 
+ * logged-in user.
+ * @param {string} username The username.
+ * @param {string} password The password of the user.
+ */
+export const login = (username, password) => {
+	const body = {
+		username,
+		password,
+		client: CLIENT_NAME,
+	}
+	const payload = {
+		method: 'POST',
+		cache: 'no-cache',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(body),
+	}
+	return fetch(`${API_ROOT}/login`, payload)
+		.then(res => res.json())
+		.catch(err => { return { status: err.message, result: null, token: null } })
+}
