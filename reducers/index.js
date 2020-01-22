@@ -24,7 +24,7 @@ const initialToken = typeof localStorage !== 'undefined' ? localStorage.getItem(
 // 	curBitInfo: null
 // }
 
-const initialState = {
+export const initialState = {
 	auth: {
 		loading: false,
 		isAuth: initialToken !== null,

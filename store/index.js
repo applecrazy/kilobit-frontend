@@ -1,5 +1,8 @@
+/* eslint-disable no-unused-vars */
 import { createStore, applyMiddleware, compose } from 'redux'
+
 import { persistStore } from 'redux-persist'
+import TokenExpireTransform from './tokenExpireTransform'
 
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from '../sagas'
@@ -18,6 +21,7 @@ const makeStore = (preloadedState, { isServer, req = null }) => {
 		const persistConfig = {
 			key: 'root',
 			storage,
+			transforms: [TokenExpireTransform],
 			whitelist: ['auth'],
 		}
 		store = createStore(
