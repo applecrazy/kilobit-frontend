@@ -263,3 +263,14 @@ export function authTokenError(error) {
 		error,
 	}
 }
+
+/**
+ * Action creator to log out current user.
+ * Dispatching this will reset auth state to default.
+ * @returns {object} The created action.
+ */
+export function authLogout() {
+	return {
+		type: 'AUTH_TOKEN_CLEAR',
+	}
+}

@@ -183,10 +183,15 @@ function authTokenError(authState, action) {
 	}
 }
 
+function authTokenClear(authState, action) {
+	return initialState.auth
+}
+
 const authReducer = createReducer(initialState.auth, {
 	'AUTH_TOKEN_REQ_BEGIN': authTokenBegin,
 	'AUTH_TOKEN_REQ_RECEIVED': authTokenReceived,
 	'AUTH_TOKEN_REQ_ERROR': authTokenError,
+	'AUTH_TOKEN_CLEAR': authTokenClear,
 })
 
 const kilobitApp = combineReducers({
