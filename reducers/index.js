@@ -3,32 +3,11 @@ import { combineReducers } from 'redux'
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-unused-vars */
 
-// TODO: validate stored token, if invalid throw it away
-const initialToken = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null
-// const initialState = {
-// 	error: null, // string error?
-// 	status: 200, // status code
-// 	loadingAuth: false,
-// 	isLoggedIn: initialToken !== null, // boolean
-// 	loggedInUser: null, // logged in user info
-// 	authToken: initialToken, // auth token, string
-
-// 	loadingBits: false,
-// 	bits: [], // bit array
-// 	curBitPage: 0,
-// 	totalBitPages: 1,
-// 	bitType: 'USER_BITS', // type of bits that are stored
-// 	curUserInfo: null, // object
-// 	loadingUserInfo: false,
-// 	loadingBitInfo: false,
-// 	curBitInfo: null
-// }
-
 export const initialState = {
 	auth: {
 		loading: false,
-		isAuth: initialToken !== null,
-		token: initialToken,
+		isAuth: false,
+		token: null,
 		user: null,
 	},
 	bits: {

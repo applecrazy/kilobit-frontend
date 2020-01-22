@@ -34,7 +34,7 @@ Nav.propTypes = {
 
 const mapStateToProps = state => {
 	return {
-		loggedIn: state.isLoggedIn,
+		loggedIn: state.auth.isAuth,
 	}
 }
 
