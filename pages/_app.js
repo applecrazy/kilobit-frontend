@@ -7,8 +7,10 @@ import { Provider } from 'react-redux'
 import makeStore from '../store'
 import withRedux from 'next-redux-wrapper'
 import withReduxSaga from 'next-redux-saga'
+import { PersistGate } from 'redux-persist/integration/react'
 
 import NProgress from 'nprogress'
+import Loading from '../components/loading'
 
 NProgress.configure({ showSpinner: false })
 
@@ -40,7 +42,9 @@ class KilobitApp extends App {
 					<link rel="stylesheet" href="/nprogress.css" />
 				</Head>
 				<Provider store={store}>
-					<Component {...pageProps} />
+					<PersistGate persistor={store.__PERSISTOR} loading={<Loading />}>
+						<Component {...pageProps} />
+					</PersistGate>
 				</Provider>
 			</>
 		)

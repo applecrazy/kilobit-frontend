@@ -1,4 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux'
+import { persistStore } from 'redux-persist'
 
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from '../sagas'
@@ -7,22 +8,43 @@ import rootReducer from '../reducers'
 
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose
 const makeStore = (preloadedState, { isServer, req = null }) => {
+	let store
 	const sagaMiddleware = createSagaMiddleware()
-	const store = createStore(
-		rootReducer,
-		preloadedState,
-		composeEnhancers(
-			applyMiddleware(
-				sagaMiddleware,
-			),
-		),
-	)
 
-	// next-redux-saga stuff
-	if (req || !isServer) {
-		store.sagaTask = sagaMiddleware.run(rootSaga)
+	if (!isServer) {
+		// persist and rehydrate store on client
+		const { persistReducer } = require('redux-persist')
+		const storage = require('redux-persist/lib/storage').default
+		const persistConfig = {
+			key: 'root',
+			storage,
+			whitelist: ['auth'],
+		}
+		store = createStore(
+			persistReducer(persistConfig, rootReducer),
+			preloadedState,
+			composeEnhancers(
+				applyMiddleware(
+					sagaMiddleware,
+				),
+			),
+		)
+		store.__PERSISTOR = persistStore(store)
+	} else {
+		// on the server, just go ahead with the preloaded state. no persistence here.
+		store = createStore(
+			rootReducer,
+			preloadedState,
+			composeEnhancers(
+				applyMiddleware(
+					sagaMiddleware,
+				),
+			),
+		)
 	}
-	
+
+	store.sagaTask = sagaMiddleware.run(rootSaga)
+
 	return store
 }
 
