@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Router from 'next/router'
 
 import Layout from '../components/layout'
 
-import controller from '../controller'
+import { connect } from 'react-redux'
+import { authTokenGet } from '../actions'
+import Loading from '../components/loading'
 
 class Login extends Component {
 	constructor(props) {
@@ -11,14 +14,11 @@ class Login extends Component {
 		this.state = {
 			username: '',
 			password: '',
-			token: null,
-			error: null,
 		}
 	}
 
-	componentDidMount() {
-		const isAuth = controller.isAuthenticated()
-		if (isAuth) Router.push('/feed')
+	static async getInitialProps({ isServer }) {
+		return { isServer }
 	}
 
 	changeState(e) {
@@ -27,7 +27,7 @@ class Login extends Component {
 		this.setState(newState)
 	}
 
-	detectEnter(e) { 
+	detectEnter(e) {
 		console.log(e.key)
 		if (e.key === 'Enter') {
 			this.submit()
@@ -35,37 +35,38 @@ class Login extends Component {
 		}
 	}
 
-	async submit() {
+	submit() {
 		const { username, password } = this.state
 		if (!username || !password || username === '' || password === '') {
-			this.setState({ error: 'The username or password is missing.' })
 			return
 		}
-		const { status, token } = await controller.login(username, password)
-		switch (status) {
-			case 200:
-				break
+		this.props.authTokenGet(username, password)
+	}
+
+	humanifyError(err) {
+		switch (err) {
 			case 401:
-				this.setState({ error: 'The username or password you entered is incorrect.' })
-				return
+				return 'Incorrect username or password.'
 			case 404:
-				this.setState({ error: 'An account with that username doesn\'t exist.' })
-				return
+				return 'That user doesn\'t exist.'
 			default:
-			case 500:
-				this.setState({ error: 'Something went wrong. Try again?' })
-				return
+				return 'Something else went wrong. Try again later?'
 		}
-		console.log(token)
-		localStorage.setItem('token', token)
-		this.setState({ error: null, token })
-		Router.push('/feed')
 	}
 
 	render() {
+		if (this.props.auth.isAuth) {
+			Router.push('/feed')
+			return (
+				<Loading />
+			)
+		}
 		return (
 			<Layout title="login">
 				<style jsx>{`
+					:global(html) {
+						background: #297FFF;
+					}
                     .welcome-msg {
                         font-size: 18px;
                         letter-spacing: 5px;
@@ -78,21 +79,30 @@ class Login extends Component {
                     }
                     input.input {
                         border: 2px solid #5e5e5e;
-                        height: 51px;
-                    }
+						height: 51px;
+						color: black;
+					}
+
                     img {
                         user-select: none;
-                    }
+					}
+					.login-box {
+						max-width: 420px;
+						padding: 60px 40px;
+						background: white;
+						border-radius: 20px;
+						box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.02);
+					}
                 `}</style>
 				<div className="hero is-fullheight">
 					<div className="hero-body">
-						<div className="container has-text-centered" style={{ maxWidth: '360px' }}>
-							<h4 className="title is-4 welcome-msg">Welcome to</h4>
+						<div className="container has-text-centered login-box">
+							<h4 className="title is-4 welcome-msg">Log in to</h4>
 							<img src="../branding/kilobit-wordmark-color.svg" alt="kilobit wordmark" />
 							<br />
 							<br />
-							{this.state.error ?
-								<div className="notification is-danger"><strong>{this.state.error}</strong></div>
+							{this.props.auth.error ?
+								<div className="notification is-danger"><strong>{this.humanifyError(this.props.auth.error)}</strong></div>
 								: null
 							}
 							<input
@@ -128,5 +138,17 @@ class Login extends Component {
 	}
 }
 
+Login.propTypes = {
+	auth: PropTypes.object,
+	authTokenGet: PropTypes.func,
+	isServer: PropTypes.bool,
+}
 
-export default Login
+const mapDispatchToProps = { authTokenGet }
+const mapStateToProps = state => {
+	return {
+		auth: state.auth,
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

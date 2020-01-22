@@ -9,6 +9,7 @@ export const initialState = {
 		isAuth: false,
 		token: null,
 		user: null,
+		error: null,
 	},
 	bits: {
 		loading: false,
