@@ -16,16 +16,46 @@ class Nav extends Component {
 						</Link>
 					</div>
 				</div>
-				<div className="navbar-end">
-					{this.props.auth.isAuth ? <div className="navbar-item"><strong className="has-text-white">@{this.props.auth.user.username}</strong></div> : null}
-					<div className="navbar-item">
-						<div className="buttons has-text-centered-mobile">
-							{!this.props.auth.isAuth ? <Link href="/login"><a className="button is-white is-rounded has-text-primary"><strong>Login</strong></a></Link> : null}
-							{!this.props.auth.isAuth ? <Link href="/signup"><a className="button is-white is-rounded is-outlined"><strong>Sign up</strong></a></Link> : null}
-							{this.props.auth.isAuth ? <a className="button is-white is-rounded is-outlined" onClick={() => this.props.authLogout()}><strong>Log out</strong></a> : null}
-						</div>
+				{this.props.auth.isAuth ?
+					<div className="navbar-start">
+						<Link href="/feed">
+							<a className="navbar-item">
+								<strong className="has-text-white">home</strong>
+							</a>
+						</Link>
 					</div>
+					: null
+				}
+				<div className="navbar-end">
+					{this.props.auth.isAuth ?
+						<div className="navbar-item has-dropdown is-hoverable">
+							<a className="navbar-link"><strong className="has-text-white">@{this.props.auth.user.username}</strong></a>
+							<div className="navbar-dropdown">
+								<a className="navbar-item has-text-black" onClick={() => this.props.authLogout()}><strong>Log out</strong></a>
+							</div>
+						</div>
+						:
+						<div className="navbar-item">
+							<div className="buttons has-text-centered-mobile">
+								<Link href="/login"><a className="button is-white is-rounded has-text-primary"><strong>Login</strong></a></Link>
+								<Link href="/signup"><a className="button is-white is-rounded is-outlined"><strong>Sign up</strong></a></Link>
+							</div>
+						</div>
+					}
 				</div>
+				<style jsx>{`
+					.navbar-item > strong, .navbar-item {
+						color: inherit !important;
+					}
+					.navbar-item.has-text-black > strong {
+						color: #4a4a4a !important;
+					}
+					@media screen and (max-width: 768px) {
+						.navbar-item.has-text-black > strong {
+							color: inherit !important;
+						}
+					}
+				`}</style>
 			</nav>
 		)
 	}
