@@ -38,7 +38,7 @@ class Profile extends Component {
 		const { error: profileError, current: curProfile } = this.props.profile
 		if (profileError) return <Error statusCode={profileError} />
 		return (
-			<Layout withIcons withNavbar title={`@${curProfile.username}`}>
+			<Layout withNavbar title={`@${curProfile.username}`}>
 				<BottomScrollListener onBottom={() => this.loadMore()} />
 				<ProfileHeader
 					displayName={curProfile.displayName}

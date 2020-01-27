@@ -12,7 +12,7 @@ const Reduxed = props => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	return (
-		<Layout withIcons withNavbar title="State Playground">
+		<Layout withNavbar title="State Playground">
 			<section className="section">
 				<h1 className="title">Redux Refactor Playground</h1>
 			</section>

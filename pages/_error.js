@@ -6,6 +6,9 @@ import Nav from '../components/nav'
 import Layout from '../components/layout'
 
 const Error = ({ statusCode }) => {
+	if (statusCode.length > 3) {
+		statusCode = '500'
+	}
 	return (
 		<Layout title="error">
 			<div className="hero is-fullheight is-primary">

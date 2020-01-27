@@ -27,7 +27,7 @@ class BitView extends Component {
 		const { parentBit, error, children } = data
 		if (error) return <Error statusCode={error} />
 		return (
-			<Layout withNavbar withIcons>
+			<Layout withNavbar>
 				<div className="columns">
 					<div className="column"></div>
 					<div className="column is-6">

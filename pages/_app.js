@@ -39,7 +39,9 @@ class KilobitApp extends App {
 		return (
 			<>
 				<Head>
+					<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Red+Hat+Display:400,500,700,900,900i&display=swap" />
 					<link rel="stylesheet" href="/nprogress.css" />
+					<link key="icons" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
 				</Head>
 				<Provider store={store}>
 					<PersistGate persistor={store.__PERSISTOR} loading={<Loading />}>

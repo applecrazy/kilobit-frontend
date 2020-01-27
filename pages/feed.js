@@ -8,7 +8,7 @@ const Feed = props => {
 		Router.push('/')
 	}
 	return (
-		<Layout withIcons withNavbar>
+		<Layout withNavbar>
 			<section className="section">
             
 			</section>
