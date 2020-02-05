@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { connect } from 'react-redux'
 import { authLogout } from '../actions'
 
+const { SIGNUP_DISABLED } = process.env
+
 class Nav extends Component {
 	render() {
 		return (
@@ -38,7 +40,10 @@ class Nav extends Component {
 						<div className="navbar-item">
 							<div className="buttons has-text-centered-mobile">
 								<Link href="/login"><a className="button is-white is-rounded has-text-primary"><strong>Login</strong></a></Link>
-								<Link href="/signup"><a className="button is-white is-rounded is-outlined"><strong>Sign up</strong></a></Link>
+								{!SIGNUP_DISABLED ?
+									<Link href="/signup"><a className="button is-white is-rounded is-outlined"><strong>Sign up</strong></a></Link>
+									: null
+								}
 							</div>
 						</div>
 					}

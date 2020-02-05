@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 
+import Error from './_error'
 import Layout from '../components/layout'
+
+const { SIGNUP_DISABLED } = process.env
 
 class Signup extends Component {
 	constructor(props) {
@@ -23,6 +26,10 @@ class Signup extends Component {
 	}
 
 	render() {
+		if (SIGNUP_DISABLED) {
+			return <Error statusCode={404} />
+		}
+		
 		return (
 			<Layout title="signup">
 				<style jsx>{`
