@@ -274,3 +274,63 @@ export function authLogout() {
 		type: 'AUTH_TOKEN_CLEAR',
 	}
 }
+
+// signup actions
+
+/**
+ * Action creator to initiate saga to create new user.
+ * Dispatching this will begin asynchronously post
+ * this data to the API server.
+ * @param {string} displayName The user's display name.
+ * @param {string} username The user's username.
+ * @param {string} password The user's password.
+ * @param {string} utcOffset The user's offset from UTC.
+ * @returns {object} The created action.
+ */
+export function userCreate(displayName, username, password, utcOffset) {
+	return {
+		type: 'USER_CREATE',
+		displayName,
+		username,
+		password,
+		utcOffset,
+	}
+}
+
+/**
+ * NOTE: This action should only be dispatched by a saga.
+ * 
+ * Action creator to signify the beginning of user creation.
+ * @returns {object} The created action.
+ */
+export function userCreateBegin() {
+	return {
+		type: 'USER_CREATE_REQ_BEGIN',
+	}
+}
+
+/**
+ * NOTE: This action should only be dispatched by a saga.
+ * 
+ * Action creator to signify the end of user creation.
+ * @returns {object} The created action.
+ */
+export function userCreateReceived() {
+	return {
+		type: 'USER_CREATE_REQ_RECEIVED',
+	}
+}
+
+/**
+ * NOTE: This action should only be dispatched by a saga.
+ * 
+ * Action creator to signify the end of user creation,
+ * accompanied by a provided error.
+ * @returns {object} The created action.
+ */
+export function userCreateError(error) {
+	return {
+		type: 'USER_CREATE_REQ_ERROR',
+		error,
+	}
+}

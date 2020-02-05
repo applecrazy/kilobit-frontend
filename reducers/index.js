@@ -10,6 +10,7 @@ export const initialState = {
 		token: null,
 		user: null,
 		error: null,
+		signedUp: false,
 	},
 	bits: {
 		loading: false,
@@ -187,11 +188,38 @@ function authTokenClear(authState, action) {
 	return initialState.auth
 }
 
+function signupBegin(authState, action) {
+	return {
+		...authState,
+		loading: true,
+	}
+}
+
+function signupDone(authState, action) {
+	return {
+		...authState,
+		loading: false,
+		error: null,
+		signedUp: true,
+	}
+}
+
+function signupError(authState, action) {
+	return {
+		...authState,
+		error: action.error,
+		loading: false,
+	}
+}
+
 const authReducer = createReducer(initialState.auth, {
 	'AUTH_TOKEN_REQ_BEGIN': authTokenBegin,
 	'AUTH_TOKEN_REQ_RECEIVED': authTokenReceived,
 	'AUTH_TOKEN_REQ_ERROR': authTokenError,
 	'AUTH_TOKEN_CLEAR': authTokenClear,
+	'USER_CREATE_REQ_BEGIN': signupBegin,
+	'USER_CREATE_REQ_RECEIVED': signupDone,
+	'USER_CREATE_REQ_ERROR': signupError,
 })
 
 const kilobitApp = combineReducers({

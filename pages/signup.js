@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import Router from 'next/router'
 
 import Error from './_error'
 import Layout from '../components/layout'
+import classNames from 'classnames'
+
+import { connect } from 'react-redux'
+import { userCreate } from '../actions'
+import Loading from '../components/loading'
 
 const { SIGNUP_DISABLED } = process.env
 
@@ -22,14 +29,31 @@ class Signup extends Component {
 	}
 
 	submit() {
-		alert(JSON.stringify(this.state))
+		const utcOffset = -new Date().getTimezoneOffset() / 60
+		this.props.userCreate(this.state.displayName, this.state.username, this.state.password, utcOffset)
+	}
+
+	humanifyError(err) {
+		switch (err) {
+			case 409:
+				return 'That username is taken.'
+			default:
+				return 'Something else went wrong. Try again later?'
+		}
 	}
 
 	render() {
 		if (SIGNUP_DISABLED) {
 			return <Error statusCode={404} />
 		}
-		
+
+		if (this.props.auth.signedUp || this.props.auth.isAuth) {
+			Router.push('/login')
+			return (
+				<Loading />
+			)
+		}
+
 		return (
 			<Layout title="signup">
 				<style jsx>{`
@@ -47,6 +71,10 @@ class Signup extends Component {
 							<img src="../branding/kilobit-wordmark-color.svg" alt="kilobit wordmark" />
 							<br />
 							<br />
+							{this.props.auth.error ?
+								<div className="notification is-danger"><strong>{this.humanifyError(this.props.auth.error)}</strong></div>
+								: null
+							}
 							<input
 								type="input"
 								name="displayName"
@@ -80,7 +108,7 @@ class Signup extends Component {
 							/>
 							<br />
 							<br />
-							<button className="button is-rounded is-primary" onClick={this.submit.bind(this)}><strong>Sign up</strong></button>
+							<button className={classNames('button', 'is-rounded', 'is-primary', { 'is-loading': this.props.auth.loading })} onClick={this.submit.bind(this)}><strong>Sign up</strong></button>
 						</div>
 					</div>
 				</div>
@@ -89,5 +117,16 @@ class Signup extends Component {
 	}
 }
 
+Signup.propTypes = {
+	auth: PropTypes.object,
+	userCreate: PropTypes.func,
+}
 
-export default Signup
+const mapDispatchToProps = { userCreate }
+const mapStateToProps = state => {
+	return {
+		auth: state.auth,
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup)

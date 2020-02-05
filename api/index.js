@@ -81,3 +81,31 @@ export const login = (username, password) => {
 		.then(res => res.json())
 		.catch(err => { return { status: err.message, result: null, token: null } })
 }
+
+
+/**
+ * Sign up a user using the provided credentials. 
+ * @param {string} displayName The user's display name.
+ * @param {string} username The user's username.
+ * @param {string} password The user's password.
+ * @param {string} utcOffset The user's offset from UTC.
+ */
+export const signup = (displayName, username, password, utcOffset) => {
+	const body = {
+		username,
+		password,
+		displayName,
+		utcOffset,
+	}
+	const payload = {
+		method: 'POST',
+		cache: 'no-cache',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(body),
+	}
+	return fetch(`${API_ROOT}/user`, payload)
+		.then(res => res.json())
+		.catch(err => { return { status: err.message, result: null } })
+}

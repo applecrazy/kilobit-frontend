@@ -92,6 +92,25 @@ export function* watchGetAuthToken() {
 	yield takeEvery('AUTH_TOKEN_GET', getAuthToken)
 }
 
+export function* signUpUser(action) {
+	const { displayName, username, password, utcOffset } = action
+	try {
+		yield put(actions.userCreateBegin())
+		const { status, result } = yield call(api.signup, displayName, username, password, utcOffset)
+		if (status !== 201) {
+			yield put(actions.userCreateError(status))
+			return
+		}
+		yield put(actions.userCreateReceived())
+	} catch (error) {
+		yield put(actions.userCreateError(error))
+	}
+}
+
+export function* watchUserCreate() {
+	yield takeEvery('USER_CREATE', signUpUser)
+}
+
 // root saga which will run in a separate thread
 export default function* rootSaga() {
 	// this function will execute these things concurrently
@@ -100,5 +119,6 @@ export default function* rootSaga() {
 		watchGetUserBits(),
 		watchGetBitReplies(),
 		watchGetAuthToken(),
+		watchUserCreate(),
 	])
 }

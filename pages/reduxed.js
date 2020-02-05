@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 import { connect } from 'react-redux'
-import { profileGet, userBitsGet, bitRepliesGet, authTokenGet } from '../actions'
+import { profileGet, userBitsGet, bitRepliesGet, authTokenGet, userCreate } from '../actions'
 
 import Layout from '../components/layout'
 
@@ -11,6 +11,10 @@ import classNames from 'classnames'
 const Reduxed = props => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
+	const [newUsername, setNewUsername] = useState('')
+	const [displayName, setDisplayName] = useState('')
+	const [newPassword, setNewPassword] = useState('')
+	const utcOffset = String(-new Date().getTimezoneOffset() / 60)
 	return (
 		<Layout withNavbar title="State Playground">
 			<section className="section">
@@ -85,11 +89,38 @@ const Reduxed = props => {
 					</div>
 				</div>
 			</section>
+			<section className="section">
+				<h4 className="title is-4 has-text-centered">Signing Up</h4>
+				<div className="columns">
+					<div className="column is-3">
+						<h5 className="subtitle">Data</h5>
+						<label className="label"><code>display name</code></label>
+						<input type="text" className="input" style={{ borderRadius: '3px', fontFamily: 'monospace' }} value={displayName} onChange={e => setDisplayName(e.target.value)} />
+						<br /> <br />
+						<label className="label"><code>username</code></label>
+						<input type="text" className="input" style={{ borderRadius: '3px', fontFamily: 'monospace' }} value={newUsername} onChange={e => setNewUsername(e.target.value)} />
+						<br /> <br />
+						<label className="label"><code>password</code></label>
+						<input type="password" className="input" style={{ borderRadius: '3px', fontFamily: 'monospace' }} value={newPassword} onChange={e => setNewPassword(e.target.value)} />
+						<br /> <br />
+						<label className="label"><code>utc offset</code></label>
+						<input disabled type="text" className="input" style={{ borderRadius: '3px', fontFamily: 'monospace' }} value={utcOffset} />
+						<hr />
+						<h5 className="subtitle">Action</h5>
+						<button className={classNames('button', 'is-primary', { 'is-loading': props.auth.loading })} onClick={() => props.userCreate(displayName, newUsername, newPassword, utcOffset)}>userCreate(...)</button>
+					</div>
+					<div className="column">
+						<h5 className="subtitle">Result</h5>
+						<br />
+						<em>no obvious results</em>
+					</div>
+				</div>
+			</section>
 		</Layout>
 	)
 }
 
-const mapDispatchToProps = { profileGet, userBitsGet, bitRepliesGet, authTokenGet }
+const mapDispatchToProps = { profileGet, userBitsGet, bitRepliesGet, authTokenGet, userCreate }
 const mapStateToProps = state => {
 	return {
 		profile: state.profile,
