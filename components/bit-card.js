@@ -27,7 +27,7 @@ LinkifyLink.propTypes = {
 
 const BitCard = props => (
 	<Link href={`/bit/${props.bitID}`}>
-		<div className="box" style={{
+		<div className={classNames('box', {'not-expanding': props.notExpanding})} style={{
 			width: props.fixedWidth ? `${props.fixedWidth}px` : 'auto',
 			height: props.fixedHeight ? `${props.fixedHeight}px` : 'auto',
 		}}>
@@ -66,6 +66,10 @@ const BitCard = props => (
 				</div>
 			</div>
 			<style jsx>{`
+				.not-expanding {
+					margin: 0 auto;
+					max-width: 600px;
+				}
 				.bit-header {
 					font-size: 18px;
 					user-select: none;
@@ -110,6 +114,7 @@ const BitCard = props => (
 )
 
 BitCard.propTypes = {
+	notExpanding: PropTypes.bool,
 	displayName: PropTypes.string.isRequired,
 	verified: PropTypes.bool,
 	botUser: PropTypes.bool,
