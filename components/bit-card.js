@@ -34,8 +34,9 @@ const BitCard = props => (
 			<Link href={`/u/${props.handle}`}>
 				<h4 className="title is-5 bit-header" style={{ marginBottom: '6px', cursor: 'pointer' }}>
 					<span>{props.displayName}</span>
-					{props.verified ? ' ' : ''}
+					{props.verified || props.botUser ? ' ' : ''}
 					{props.verified ? <i className="fas fa-check-circle verified-check-small" title="verified."></i> : ''}
+					{props.botUser ? <i className="fas fa-robot verified-check-small" title="this account is controlled by a robot."></i> : ''}
 					&emsp;
 					<span className="handle">@{props.handle}</span>
 				</h4>
@@ -111,6 +112,7 @@ const BitCard = props => (
 BitCard.propTypes = {
 	displayName: PropTypes.string.isRequired,
 	verified: PropTypes.bool,
+	botUser: PropTypes.bool,
 	handle: PropTypes.string.isRequired,
 	text: PropTypes.string.isRequired,
 	date: PropTypes.string.isRequired,

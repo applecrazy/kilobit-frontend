@@ -45,6 +45,7 @@ class Profile extends Component {
 					handle={curProfile.username}
 					numBits={totalBits}
 					verified={curProfile.verified}
+					botUser={curProfile.botUser}
 				/>
 				<section className="section" style={{ paddingTop: '2rem' }}>
 					<div className="columns">
@@ -64,6 +65,7 @@ class Profile extends Component {
 										date={bit.creationDate}
 										mentions={bit.mentions}
 										tags={bit.tags}
+										botUser={curProfile.botUser}
 									/>,
 							)}
 							{loadingBits ? <h1 className="subtitle has-text-centered"><br />Loading bits...</h1> : null}

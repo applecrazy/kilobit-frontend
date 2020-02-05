@@ -9,8 +9,8 @@ const ProfileHeader = props => (
 				<div className="column">
 					<h3 className="title displayname">
 						{props.displayName}
-						{props.verified ? ' ' : ''}
 						{props.verified ? <i className="fas fa-check-circle verified-check" title="verified."></i> : ''}
+						{props.botUser ? <i className="fas fa-robot verified-check" title="this account is controlled by a robot."></i> : ''}
 						&emsp;
 						<span className="handle">@{props.handle}</span>
 					</h3>
@@ -25,12 +25,15 @@ const ProfileHeader = props => (
 				font-size: 24px;
 				font-weight: 500;
 				user-select: none;
+				display: flex;
+				align-items: center;
 			}
 			.handle {
 				font-weight: 400;
 				user-select: none;
 			}
 			.verified-check {
+				margin-left: 0.3rem;
 				font-size: 17px;
 				user-select: none;
 			}
