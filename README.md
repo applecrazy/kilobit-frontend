@@ -2,9 +2,9 @@
 	<img src="https://gistcdn.githack.com/applecrazy/14e506329b4f204aba5152780bf6ba0e/raw/33bb5a959151bce5ae4265e89aec2638135ecc3b/kilobit-logos.svg" />
 </p>
 <p align="center">
- <a href="//github.com/applecrazy/kilobit-frontend"><strong>Web Client</strong></a>&emsp;
- <a href="//github.com/applecrazy/kilobit-backend"><strong>Server</strong></a>&emsp;
- <a href="#"><strong>Python Client (coming soon)</strong></a>
+	<strong>Web Client</strong>&emsp;
+	<a href="//github.com/applecrazy/kilobit-backend"><strong>Server</strong></a>&emsp;
+	<a href="#"><strong>Python Client (coming soon)</strong></a>
 </p>
 <br/>
 
