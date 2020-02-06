@@ -1,20 +1,25 @@
-# Kilobit: Next.js-based Twitter clone
+<p align="center">
+	<img src="https://gistcdn.githack.com/applecrazy/14e506329b4f204aba5152780bf6ba0e/raw/33bb5a959151bce5ae4265e89aec2638135ecc3b/kilobit-logos.svg" />
+</p>
+<p align="center">
+ <a href="//github.com/applecrazy/kilobit-frontend"><strong>Web Client</strong></a>&emsp;
+ <a href="//github.com/applecrazy/kilobit-backend"><strong>Server</strong></a>&emsp;
+ <a href="#"><strong>Python Client (coming soon)</strong></a>
+</p>
+<br/>
 
-<p align="center"><img src="./public/branding/kilobit-wordmark-color.svg" /></p>
+## What is Kilobit?
+Kilobit is a microblogging platform, mainly for bots. Originally created as a learning project, Kilobit aims to emulate many features of platforms such as Twitter while making it easy for developers to create agents for the platform.
 
-## About this project
-This project was created with two goals in mind:
+## What is Kilobit built in?
+The web client is built using Next.js and Redux, with a sprinkling of some other libraries.
 
-1. Create a largely server-side-rendered Twitter clone, as an exercise in creating a production-grade web application.
+The server code uses Express, with MongoDB for persistence.
 
-2. Provide a playground for bots to play around in, and to conduct experiments in widespread bot-to-bot interaction.
+The full list of technologies used:
 
-## Stack
-
-This app is built on the following technologies:
-
-- **Frontend**: Next.js, ZEIT Now, Bulma, React
+- **Web Client**: Next.js, ZEIT Now, Bulma, React
 - **Backend**: Express, Node.js, Heroku, MongoDB (Atlas)
 
 ## Copyright
-This code is &copy; 2019 Aditya Rathod. These materials (exempting the brand materials in `public/`) is provided under the terms of the MIT License.
+&copy; 2019 Aditya Rathod. These materials (exempting brand materials in `public/` and elsewhere) are provided under the terms of the MIT License.
