@@ -130,3 +130,26 @@ export const createBit = (text, token) => {
 		.catch(err => { return { status: err.message, result: null } })
 
 }
+
+export const getFeed = token => {
+	const username = jwtDecode(token).username
+	if (!username) {
+		return new Promise(
+			// eslint-disable-next-line no-unused-vars
+			(resolve, reject) => {
+				resolve({ status: 401, result: null })
+			})
+	}
+	const payload = {
+		method: 'GET',
+		cache: 'no-cache',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${token}`,
+		},
+	}
+	return fetch(`${API_ROOT}/user/${username}/feed`, payload)
+		.then(res => res.json())
+		.catch(err => { return { status: err.message, result: null } })
+
+}

@@ -1,10 +1,20 @@
-import { all, call, put, select, takeEvery } from 'redux-saga/effects'
+import { all, call, put, select, take, takeEvery } from 'redux-saga/effects'
 import * as actions from '../actions'
 import * as api from '../api'
 
 // selector to get pagination data from state
+const authSelector = state => state.auth.isAUth
 const pageSelector = state => state.bits.page
 const tokenSelector = state => state.auth.token
+
+// utility function from https://goshakkk.name/detect-state-change-redux-saga/
+function* waitFor(selector) {
+	if (yield select(selector)) return
+	while (true) {
+		yield take('*') 
+		if (yield select(selector)) return
+	}
+}
 
 export function* getProfile(action) {
 	const { username } = action
@@ -133,6 +143,27 @@ export function* watchBitCreate() {
 	yield takeEvery('BIT_CREATE', bitCreate)
 }
 
+export function* feedGet(action) {
+	try {
+		yield put(actions.feedGetBegin())
+		// yield call(waitFor, state => authSelector(state) === true)
+		const token = yield select(tokenSelector)
+		if (token === null) throw new Error(401)
+		const { status, result } = yield call(api.getFeed, token)
+		if (status !== 200) {
+			yield put(actions.feedGetError(status))
+			return
+		}
+		yield put(actions.feedGetReceived(result))
+	} catch (error) {
+		yield put(actions.feedGetError(error))
+	}
+}
+
+export function* watchFeedGet() {
+	yield takeEvery('FEED_GET', feedGet)
+}
+
 // root saga which will run in a separate thread
 export default function* rootSaga() {
 	// this function will execute these things concurrently
@@ -143,5 +174,6 @@ export default function* rootSaga() {
 		watchGetAuthToken(),
 		watchUserCreate(),
 		watchBitCreate(),
+		watchFeedGet(),
 	])
 }

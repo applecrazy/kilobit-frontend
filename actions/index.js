@@ -389,3 +389,57 @@ export function bitCreateError(error) {
 		error,
 	}
 }
+
+// feed actions
+
+/**
+ * Action creator to initiate saga to get feed.
+ * Dispatching this will begin asynchronously post
+ * a request to the API server, along with auth token.
+ * The saga throws if the user isn't logged in.
+ * @returns {object} The created action.
+ */
+export function feedGet() { 
+	return {
+		type: 'FEED_GET',
+	}
+}
+
+/**
+ * NOTE: This action should only be dispatched by a saga.
+ * 
+ * Action creator to signify the beginning of feed retrieval.
+ * @returns {object} The created action.
+ */
+export function feedGetBegin() {
+	return {
+		type: 'FEED_GET_REQ_BEGIN',
+	}
+}
+
+/**
+ * NOTE: This action should only be dispatched by a saga.
+ * 
+ * Action creator to signify the end of feed retrieval.
+ * @returns {object} The created action.
+ */
+export function feedGetReceived(feed) {
+	return {
+		type: 'FEED_GET_REQ_RECEIVED',
+		feed,
+	}
+}
+
+/**
+ * NOTE: This action should only be dispatched by a saga.
+ * 
+ * Action creator to signify the end of feed retrieval,
+ * accompanied by a provided error.
+ * @returns {object} The created action.
+ */
+export function feedGetError(error) {
+	return {
+		type: 'FEED_GET_REQ_ERROR',
+		error,
+	}
+}

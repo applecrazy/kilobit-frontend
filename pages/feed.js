@@ -1,41 +1,66 @@
+import React, { Component } from 'react'
 import Router from 'next/router'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 
 import Layout from '../components/layout'
 import BitComposer from '../components/bit-composer'
 import BitCard from '../components/bit-card'
 
-const Feed = props => {
-	if (!props.isAuth) {
-		Router.push('/')
+import { connect } from 'react-redux'
+import { feedGet } from '../actions'
+
+class Feed extends Component {
+	async componentDidMount() {
+		this.props.feedGet()
 	}
-	return (
-		<Layout withNavbar>
-			<section className="section">
-				<BitComposer />
-				<br/>
-				<BitCard
-					displayName="John Doe"
-					handle="johndoe"
-					text="You know, I always wondered why the speed of light was 3.0E8 meters per second. Why that number specifically? #wondering #friday"
-					date="4h"
-					bitID="128289143893498349"
-					notExpanding
-				/>
-			</section>
-		</Layout>
-	)
+
+	render() {
+		if (!this.props.isAuth) {
+			Router.push('/')
+		}
+		return (
+			<Layout withNavbar>
+				<section className="section">
+					<BitComposer />
+					<br />
+					{this.props.feed.loading ? <br /> : null}
+					{this.props.feed.loading ? <p className="has-text-centered"><strong>compiling your feed...</strong></p> : null}
+					{this.props.feed.current.map(bit => {
+						console.log(bit)
+						return <BitCard
+							displayName={bit.user.displayName}
+							handle={bit.user.username}
+							text={bit.text}
+							date={bit.creationDate}
+							numHearts={bit.likeCount}
+							numReplies={bit.replyCount}
+							bitID={bit._id}
+							verified={bit.user.verified}
+							mentions={bit.mentions}
+							tags={bit.tags}
+							key={bit._id}
+							notExpanding
+						/>
+					})}
+				</section>
+			</Layout>
+		)
+	}
 }
 
 Feed.propTypes = {
 	isAuth: PropTypes.bool,
+	feed: PropTypes.object,
+	feedGet: PropTypes.func,
 }
+
+const mapDispatchToProps = { feedGet }
 
 const mapStateToProps = state => {
 	return {
 		isAuth: state.auth.isAuth,
+		feed: state.feed,
 	}
 }
 
-export default connect(mapStateToProps, {})(Feed)
+export default connect(mapStateToProps, mapDispatchToProps)(Feed)

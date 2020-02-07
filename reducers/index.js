@@ -28,6 +28,11 @@ export const initialState = {
 		loading: false,
 		error: null,
 	},
+	feed: {
+		loading: false,
+		error: null,
+		current: [],
+	},
 	replies: {
 		loading: false,
 		parentBit: null,
@@ -255,10 +260,41 @@ const bitComposeReducer = createReducer(initialState.bitCompose, {
 	'BIT_CREATE_REQ_ERROR': bitPostError,
 })
 
+function feedGetBegin(feedState, action) {
+	return {
+		...feedState,
+		loading: true,
+	}
+}
+
+function feedGetReceived(feedState, action) {
+	return {
+		...feedState,
+		loading: false,
+		error: null,
+		current: action.feed,
+	}
+}
+
+function feedGetError(feedState, action) {
+	return {
+		...feedState,
+		loading: false,
+		error: action.error,
+	}
+}
+
+const feedReducer = createReducer(initialState.feed, {
+	'FEED_GET_REQ_BEGIN': feedGetBegin,
+	'FEED_GET_REQ_RECEIVED': feedGetReceived,
+	'FEED_GET_REQ_ERROR': feedGetError,
+})
+
 const kilobitApp = combineReducers({
 	auth: authReducer,
 	bits: bitsReducer,
 	bitCompose: bitComposeReducer,
+	feed: feedReducer,
 	profile: profileReducer,
 	replies: repliesReducer,
 })
