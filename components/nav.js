@@ -25,6 +25,11 @@ class Nav extends Component {
 								<strong className="has-text-white">home</strong>
 							</a>
 						</Link>
+						<Link href={`/u/${this.props.auth.user.username}`}>
+							<a className="navbar-item">
+								<strong className="has-text-white">profile</strong>
+							</a>
+						</Link>
 					</div>
 					: null
 				}

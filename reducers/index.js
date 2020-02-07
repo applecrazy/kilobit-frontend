@@ -24,6 +24,10 @@ export const initialState = {
 		current: [],
 		total: 0,
 	},
+	bitCompose: {
+		loading: false,
+		error: null,
+	},
 	replies: {
 		loading: false,
 		parentBit: null,
@@ -222,9 +226,39 @@ const authReducer = createReducer(initialState.auth, {
 	'USER_CREATE_REQ_ERROR': signupError,
 })
 
+function bitPostBegin(bitComposeState, action) {
+	return {
+		...bitComposeState,
+		loading: true,
+	}
+}
+
+function bitPostReceived(bitComposeState, action) {
+	return {
+		...bitComposeState,
+		loading: false,
+		error: null,
+	}
+}
+
+function bitPostError(bitComposeState, action) {
+	return {
+		...bitComposeState,
+		loading: false,
+		error: action.error,
+	}
+}
+
+const bitComposeReducer = createReducer(initialState.bitCompose, {
+	'BIT_CREATE_REQ_BEGIN': bitPostBegin,
+	'BIT_CREATE_REQ_RECEIVED': bitPostReceived,
+	'BIT_CREATE_REQ_ERROR': bitPostError,
+})
+
 const kilobitApp = combineReducers({
 	auth: authReducer,
 	bits: bitsReducer,
+	bitCompose: bitComposeReducer,
 	profile: profileReducer,
 	replies: repliesReducer,
 })

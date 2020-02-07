@@ -59,6 +59,7 @@ const ProfileHeader = props => (
 ProfileHeader.propTypes = {
 	displayName: PropTypes.string.isRequired,
 	verified: PropTypes.bool,
+	botUser: PropTypes.bool,
 	handle: PropTypes.string.isRequired,
 	numBits: PropTypes.number.isRequired,
 }

@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 
 import classNames from 'classnames'
 
+import { connect } from 'react-redux'
+import { bitCreate } from '../actions'
+
 const BitComposer = props => {
 	const [rows, setRows] = useState(1)
 	const [txt, setTxt] = useState('')
@@ -19,12 +22,20 @@ const BitComposer = props => {
 				onChange={e => {
 					setTxt(e.target.value)
 					if (txt.length >= 50) setRows(3)
-					if (txt.length < 50 && rows !== 1) setRows(1)
+					if (txt.length < 50 && rows !== 1 && !props.bitCompose.loading) setRows(1)
 				}}
 				value={txt}></textarea>
-			{txt.length > 0 ? <div className="action-bar">
+			{txt.length > 0 || props.bitCompose.loading ? <div className="action-bar">
 				<div className="char-count">{txt.length} / 128</div>
-				<button className="button is-primary is-rounded"><strong>Post Bit</strong></button>
+				<button
+					className={classNames('button', 'is-primary', 'is-rounded', { 'is-loading': props.bitCompose.loading })}
+					onClick={() => {
+						props.bitCreate(txt)
+						setTxt('')
+					}}
+				>
+					<strong>Post Bit</strong>
+				</button>
 			</div> : null}
 			{/* <div className="action-bar">
 			<button className="button is-primary is-rounded">Post Bit</button>
@@ -70,6 +81,16 @@ const BitComposer = props => {
 
 BitComposer.propTypes = {
 	expanding: PropTypes.bool,
+	bitCreate: PropTypes.func.isRequired,
+	bitCompose: PropTypes.object.isRequired,
 }
 
-export default BitComposer
+const mapDispatchToProps = { bitCreate }
+
+const mapStateToProps = state => {
+	return {
+		bitCompose: state.bitCompose,
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BitComposer)

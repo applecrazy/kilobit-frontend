@@ -334,3 +334,58 @@ export function userCreateError(error) {
 		error,
 	}
 }
+
+// bit post actions
+
+/**
+ * Action creator to initiate saga to post bit.
+ * Dispatching this will begin asynchronously post
+ * this data to the API server, along with auth token.
+ * The saga throws if the user isn't logged in.
+ * @param {string} text The text of the bit.
+ * @returns {object} The created action.
+ */
+export function bitCreate(text) { 
+	return {
+		type: 'BIT_CREATE',
+		text,
+	}
+}
+
+/**
+ * NOTE: This action should only be dispatched by a saga.
+ * 
+ * Action creator to signify the beginning of user creation.
+ * @returns {object} The created action.
+ */
+export function bitCreateBegin() {
+	return {
+		type: 'BIT_CREATE_REQ_BEGIN',
+	}
+}
+
+/**
+ * NOTE: This action should only be dispatched by a saga.
+ * 
+ * Action creator to signify the end of user creation.
+ * @returns {object} The created action.
+ */
+export function bitCreateReceived() {
+	return {
+		type: 'BIT_CREATE_REQ_RECEIVED',
+	}
+}
+
+/**
+ * NOTE: This action should only be dispatched by a saga.
+ * 
+ * Action creator to signify the end of user creation,
+ * accompanied by a provided error.
+ * @returns {object} The created action.
+ */
+export function bitCreateError(error) {
+	return {
+		type: 'BIT_CREATE_REQ_ERROR',
+		error,
+	}
+}

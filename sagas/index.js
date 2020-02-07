@@ -4,6 +4,7 @@ import * as api from '../api'
 
 // selector to get pagination data from state
 const pageSelector = state => state.bits.page
+const tokenSelector = state => state.auth.token
 
 export function* getProfile(action) {
 	const { username } = action
@@ -111,6 +112,27 @@ export function* watchUserCreate() {
 	yield takeEvery('USER_CREATE', signUpUser)
 }
 
+export function* bitCreate(action) {
+	const { text } = action
+	try {
+		yield put(actions.bitCreateBegin())
+		const token = yield select(tokenSelector)
+		if (token === null) throw new Error(401)
+		const { status, result } = yield call(api.createBit, text, token)
+		if (status !== 201) {
+			yield put(actions.bitCreateError(status))
+			return
+		}
+		yield put(actions.bitCreateReceived(result))
+	} catch (error) {
+		yield put(actions.bitCreateError(error))
+	}
+}
+
+export function* watchBitCreate() {
+	yield takeEvery('BIT_CREATE', bitCreate)
+}
+
 // root saga which will run in a separate thread
 export default function* rootSaga() {
 	// this function will execute these things concurrently
@@ -120,5 +142,6 @@ export default function* rootSaga() {
 		watchGetBitReplies(),
 		watchGetAuthToken(),
 		watchUserCreate(),
+		watchBitCreate(),
 	])
 }
