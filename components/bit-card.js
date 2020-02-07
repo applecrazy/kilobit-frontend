@@ -86,6 +86,7 @@ const BitCard = props => (
 					font-size: 18px;
 					line-height: 24px;
 					margin-bottom: 6px;
+					overflow-wrap: break-word;
 				}
 				.bit-date {
 					font-weight: 500;
