@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-unfetch'
+import jwtDecode from 'jwt-decode'
 
 const API_ROOT = process.env.API_ROOT
 const CLIENT_NAME = process.env.CLIENT_NAME
@@ -10,14 +11,10 @@ const CLIENT_NAME = process.env.CLIENT_NAME
  */
 export const getUserInfo = username => {
 	const payload = {
-		method: 'POST',
+		method: 'GET',
 		cache: 'no-cache',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({ username }),
 	}
-	return fetch(`${API_ROOT}/user/info`, payload)
+	return fetch(`${API_ROOT}/user/${username}`, payload)
 		.then(res => res.json())
 		.catch(err => { return { status: err.message, result: null } })
 }
@@ -30,14 +27,13 @@ export const getUserInfo = username => {
  */
 export const getUserBits = (username, page) => {
 	const payload = {
-		method: 'POST',
+		method: 'GET',
 		cache: 'no-cache',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify({ page }),
 	}
-	return fetch(`${API_ROOT}/bit/u/${username}`, payload)
+	return fetch(`${API_ROOT}/user/${username}/bits?page=${page}`, payload)
 		.then(res => res.json())
 		.catch(err => { return { status: err.message, result: null } })
 }
@@ -77,7 +73,7 @@ export const login = (username, password) => {
 		},
 		body: JSON.stringify(body),
 	}
-	return fetch(`${API_ROOT}/login`, payload)
+	return fetch(`${API_ROOT}/token`, payload)
 		.then(res => res.json())
 		.catch(err => { return { status: err.message, result: null, token: null } })
 }
@@ -108,4 +104,29 @@ export const signup = (displayName, username, password, utcOffset) => {
 	return fetch(`${API_ROOT}/user`, payload)
 		.then(res => res.json())
 		.catch(err => { return { status: err.message, result: null } })
+}
+
+export const createBit = (text, token) => {
+	const username = jwtDecode(token).username
+	if (!username) {
+		return new Promise(
+			// eslint-disable-next-line no-unused-vars
+			(resolve, reject) => {
+				resolve({ status: 401, result: null })
+			})
+	}
+	const body = { text }
+	const payload = {
+		method: 'POST',
+		cache: 'no-cache',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${token}`,
+		},
+		body: JSON.stringify(body),
+	}
+	return fetch(`${API_ROOT}/user/${username}/bits`, payload)
+		.then(res => res.json())
+		.catch(err => { return { status: err.message, result: null } })
+
 }
