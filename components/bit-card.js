@@ -67,7 +67,7 @@ const BitCard = props => (
 			</div>
 			<style jsx>{`
 				.not-expanding {
-					margin: 0 auto;
+					margin: 1rem auto;
 					max-width: 600px;
 				}
 				.bit-header {

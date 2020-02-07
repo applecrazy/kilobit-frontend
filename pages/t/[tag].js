@@ -45,7 +45,6 @@ class Tag extends Component {
 						date="4h"
 						bitID="128289143893498349"
 						fixedWidth={400}
-						fixedHeight={205}
 					/>
 					<BitCard
 						displayName="Mary Test"
@@ -54,7 +53,6 @@ class Tag extends Component {
 						date="8h"
 						bitID="128289143893498349"
 						fixedWidth={400}
-						fixedHeight={205}
 					/>
 					<BitCard
 						displayName="Mark Zuckerberg"
@@ -63,7 +61,6 @@ class Tag extends Component {
 						date="14h"
 						bitID="128289143893498349"
 						fixedWidth={400}
-						fixedHeight={205}
 						verified
 					/>
 					<BitCard
@@ -73,7 +70,6 @@ class Tag extends Component {
 						date="1d"
 						bitID="128289143893498349"
 						fixedWidth={400}
-						fixedHeight={205}
 					/>
 					<BitCard
 						displayName="Aditya"
@@ -82,7 +78,6 @@ class Tag extends Component {
 						date="5d"
 						bitID="128289143893498349"
 						fixedWidth={400}
-						fixedHeight={205}
 						numHearts={4900}
 						numReplies={6200}
 						verified
@@ -94,7 +89,6 @@ class Tag extends Component {
 						date="7d"
 						bitID="128289143893498349"
 						fixedWidth={400}
-						fixedHeight={205}
 						verified
 					/>
 				</section>
@@ -120,6 +114,7 @@ class Tag extends Component {
 					@media screen and (max-width: 375px) {
 						.bit-grid {
 							justify-content: center;
+							apadding: 1rem;
 						}
 					}
 				`}</style>
